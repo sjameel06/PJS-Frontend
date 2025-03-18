@@ -1,0 +1,151 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import bg from "../../assets/Capture.jpg";
+import OurFeatures from "./OurFeatures";
+import axios from "axios";
+import { API_ENDPOINTS } from "../../utils/Service/api.confiq";
+import {toast,ToastContainer} from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+const Register = () => {
+    const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+    });
+    const [errors, setErrors] = useState({
+        email: "",
+        password: "",
+    });
+
+    const validateForm = () => {
+        let valid = true;
+        let newErrors = { email: "", password: "" };
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.email.length > 0 && !emailRegex.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+      valid = false;
+    }
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+        if (!passwordRegex.test(formData.password)) {
+            newErrors.password = "Password must be at least 8 characters and include a letter and a number with one special character";
+            valid = false;
+        }
+
+        setErrors(newErrors);
+        return valid;
+    };
+console.log(API_ENDPOINTS,"endpoints")
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        try {
+            const response = await axios.post(
+                API_ENDPOINTS.CUSTOMER.REGISTER,
+                {
+                    name: formData.name,
+                    email: formData.email,
+                    password: formData.password,
+                    phone: formData.phone,
+                },
+                {
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+            toast.success("User Registered Successfully!", {
+                position: "top-center", 
+                autoClose: 2000,    
+          })
+            console.log("Register Response:", response.data);
+
+            
+           setTimeout(() => {
+            navigate('/')
+           }, 1000);
+        } catch (error) {
+            console.error("Register Error:", error.response?.data || error.message);
+            toast.error(error.response?.data.message, {
+                position: "top-center", 
+                autoClose: 2000,    
+          })
+            
+        }
+    };
+
+    return (
+        <div>
+ <div className="relative flex flex-col py-30 items-center justify-center min-h-[100vh] bg-gray-100">
+ <ToastContainer />
+            <div
+                className="absolute inset-0 bg-cover bg-center opacity-10 "
+                style={{ backgroundImage: `url(${bg})`, height: "100%" }}
+            ></div>
+
+            <div className="relative min-w-[300px] w-[30%] p-6 bg-white shadow-lg rounded-lg backdrop-blur-md bg-white/90">
+                <h2 className="text-[2rem] font-bold mb-4 text-center">Register</h2>
+                <form onSubmit={handleRegister}>
+                    <div className="mb-2 font-medium pb-2 text-[1.4rem]">Name</div>
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        className="w-full p-2 text-[1.2rem] border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        required
+                    />
+                    <div className="mt-4 font-medium pb-2 text-[1.4rem] mb-2">Email</div>
+                    <input
+                        type="text"
+                        placeholder="Email"
+                        className="w-full text-[1.2rem]  p-2  border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        required
+                    />
+                    {errors.email && <p className="text-red-500 text-[1.2rem] mb-3">{errors.email}</p>}
+
+                    <div className="relative ">
+                        <div className="mt-4 mb-2 font-medium pb-2 text-[1.4rem]">Password </div>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Password"
+                            className="w-full p-2 text-[1.2rem] border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 pr-10"
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            required
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-3 cursor-pointer top-15 text-gray-600"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? "Hide" : "Show"}
+                        </button>
+                    </div>
+                    {errors.password && <p className="text-red-500 text-[1.2rem] mb-3">{errors.password}</p>}
+
+                    <button type="submit" className="w-full mt-4 cursor-pointer text-[1.2rem] hover:bg-blue-700 bg-blue-500  text-white p-2 rounded-lg">
+                        Register
+                    </button>
+                </form>
+
+                <p className="mt-3 text-[1.2rem] text-center">
+                    Already have an account?{" "}
+                    <span className="text-blue-500 cursor-pointer" onClick={() => navigate("/")}>
+                        Login
+                    </span>
+                </p>
+            </div>
+            <OurFeatures/> 
+        </div>
+      
+        </div>
+       
+    );
+};
+
+export default Register;
