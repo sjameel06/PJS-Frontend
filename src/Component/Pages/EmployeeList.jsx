@@ -10,7 +10,7 @@ const EmployeeList = () => {
   const [loading, setLoading] = useState(true); // Loader
   const [search, setSearch] = useState(""); // Search Term
   const [role, setRole] = useState(""); // Role Filter
-  const [pagination, setPagination] = useState({ page: 1, limit: 5, totalRecords: 0 });
+  const [pagination, setPagination] = useState({ page: 1, limit: 10, totalRecords: 0 });
 
   // 🔹 Fetch Employees Function
   const fetchEmployees = async () => {

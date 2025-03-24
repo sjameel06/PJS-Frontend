@@ -47,26 +47,29 @@ function ConfirmBooking() {
     },
     "phoneNumber": "+1987654321"
 } */}
-  const [formData, setFormData] = useState({
-    phoneNumber: "",
-    requirement: "",
-    service : id,
-    subService: "",
-    address: {
+const [formData, setFormData] = useState({
+  description: "",
+  requirement: "",
+  service: id,
+  subService: "",
+  phoneNumber: "",
+  address: {
       street: "",
       city: "",
       state: "",
       zipCode: "",
-    },
-    customerAvailability : [
-      {
-        date: "",
-        startTime: "",
-        endTime: ""
-    }
-    ],
-    description: "",
-  });
+  },
+  isRecurring: false,  // Backend format ke mutabiq isRecurrence ko isRecurring kar diya
+  customerAvailability: {
+      date: "",
+      startTime: "",
+      endTime: ""
+  },
+  recurrence: {
+      frequency: ""  // Ye tab fill hoga jab isRecurring true hoga
+  }
+});
+
   // "service": "67cf2991fa37f3a2e3f3c76a",
   // "subService": "67cf2991fa37f3a2e3f3c76c",
   const serviceOptions = [
@@ -75,30 +78,38 @@ function ConfirmBooking() {
   ];
   const handleChange = (e) => {
     const { name, value } = e.target || e;
+
     if (["street", "city", "state", "zipCode"].includes(name)) {
-      setFormData({
-        ...formData,
-        address: { ...formData.address, [name]: value },
-      });
-    }
+        setFormData(prev => ({
+            ...prev,
+            address: { ...prev.address, [name]: value },
+        }));
+    } 
+    else if (name === "frequency") { 
+      setFormData(prev => ({
+          ...prev,
+          recurrence: { ...prev.recurrence, frequency: value },
+      }));
+  }
     else if (["date", "startTime", "endTime"].includes(name)) {
-      setFormData({
-        ...formData,
-        customerAvailability: [
-          {
-            ...formData.customerAvailability[0],
-            [name]: value,
-          },
-        ],
-      });
+        setFormData(prev => ({
+            ...prev,
+            customerAvailability: {
+                ...prev.customerAvailability,
+                [name]: value,
+            },
+        }));
     }
+
     else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
     }
-  };
+};
+
+
   
 
   const openEditPopup = (subService) => {
@@ -186,18 +197,24 @@ console.log(selectedSubService,"selectedsubservice")
   }, [selectedService]);
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData,"formData")
+    console.log(formData, "formData");
+
     try {
-      console.log(formData,"formData")
-      const response = await axiosInstance.post(API_ENDPOINTS.JOB.JOB_CREATE, formData);
-      console.log("Booking Confirmed:", response.data);
-      toast.success("Booking Confirmed Successfully!", { position: "top-center", autoClose: 2000 });
+        let apiUrl = formData.isRecurring 
+            ? API_ENDPOINTS.JOB.JOB_RECURRANCE 
+            : API_ENDPOINTS.JOB.JOB_CREATE;
+
+        const response = await axiosInstance.post(apiUrl, formData);
+
+        console.log("Booking Confirmed:", response.data);
+        toast.success("Booking Confirmed Successfully!", { position: "top-center", autoClose: 2000 });
+
     } catch (error) {
-      console.error("Error booking service:", error);
-      toast.error("Booking Failed. Please try again.", { position: "top-center", autoClose: 2000 });
+        console.error("Error booking service:", error);
+        toast.error("Booking Failed. Please try again.", { position: "top-center", autoClose: 2000 });
     }
-  };
-  
+};
+
 
   return (
     // <></>
@@ -256,71 +273,153 @@ console.log(selectedSubService,"selectedsubservice")
 
 
         </div>
-        {role !== "admin" && role!=="technician" && role !== "dispatcher" && (
+        {role !== "admin" && role !== "technician" && role !== "dispatcher" && (
   <div className="col-span-3 md:col-span-1 bg-white p-6 shadow-lg rounded-lg mx-10 mt-6">
     <h2 className="text-[2rem] font-semibold mb-4">Confirm Booking</h2>
     <form onSubmit={handleBookingSubmit} className="flex flex-col gap-4 text-[1.4rem]">
-     
 
       <div>Contact Number</div>
-      <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required className="border border-gray-300 rounded-lg p-3 w-full" placeholder="Your Phone Number" />
+      <input 
+        type="text" 
+        name="phoneNumber" 
+        value={formData.phoneNumber} 
+        onChange={handleChange} 
+        required 
+        className="border border-gray-300 rounded-lg p-3 w-full" 
+        placeholder="Your Phone Number" 
+      />
 
       <div>Street</div>
-      <input type="text" name="street" value={formData.address.street} onChange={handleChange} required className="border border-gray-300 rounded-lg p-3 w-full" placeholder="Street Address" />
+      <input 
+        type="text" 
+        name="street" 
+        value={formData.address.street} 
+        onChange={handleChange} 
+        required 
+        className="border border-gray-300 rounded-lg p-3 w-full" 
+        placeholder="Street Address" 
+      />
 
       <div>City</div>
-      <input type="text" name="city" value={formData.address.city} onChange={handleChange} required className="border border-gray-300 rounded-lg p-3 w-full" placeholder="City" />
+      <input 
+        type="text" 
+        name="city" 
+        value={formData.address.city} 
+        onChange={handleChange} 
+        required 
+        className="border border-gray-300 rounded-lg p-3 w-full" 
+        placeholder="City" 
+      />
 
       <div>State</div>
-      <input type="text" name="state" value={formData.address.state} onChange={handleChange} required className="border border-gray-300 rounded-lg p-3 w-full" placeholder="State" />
+      <input 
+        type="text" 
+        name="state" 
+        value={formData.address.state} 
+        onChange={handleChange} 
+        required 
+        className="border border-gray-300 rounded-lg p-3 w-full" 
+        placeholder="State" 
+      />
 
       <div>Zip Code</div>
-      <input type="text" name="zipCode" value={formData.address.zipCode} onChange={handleChange} required className="border border-gray-300 rounded-lg p-3 w-full" placeholder="Zip Code" />
+      <input 
+        type="text" 
+        name="zipCode" 
+        value={formData.address.zipCode} 
+        onChange={handleChange} 
+        required 
+        className="border border-gray-300 rounded-lg p-3 w-full" 
+        placeholder="Zip Code" 
+      />
+
       <div>Service Type</div>
-  <Dropdown
-    value={formData.requirement}
-    options={serviceOptions}
-    onChange={(e) => handleChange({ name: "requirement", value: e.value })}
-    placeholder="Select Service Type"
-    className="w-full border border-gray-300 rounded-lg"
-  />
+      <Dropdown
+        value={formData.requirement}
+        options={serviceOptions}
+        onChange={(e) => handleChange({ name: "requirement", value: e.value })}
+        placeholder="Select Service Type"
+        className="w-full border border-gray-300 rounded-lg"
+      />
+
       <div>Description</div>
-      <textarea name="description" value={formData.description} onChange={handleChange} className="border border-gray-300 rounded-lg p-3 w-full" placeholder="Describe Your Issue (Optional)"></textarea>
+      <textarea 
+        name="description" 
+        value={formData.description} 
+        onChange={handleChange} 
+        className="border border-gray-300 rounded-lg p-3 w-full" 
+        placeholder="Describe Your Issue (Optional)"
+      ></textarea>
+
       <div>Availability Date</div>
-    <input 
-      type="date" 
-      name="date" 
-      value={formData.customerAvailability[0].date} 
-      onChange={handleChange} 
-      required 
-      className="border border-gray-300 rounded-lg p-3 w-full"
-    />
+      <input 
+        type="date" 
+        name="date" 
+        value={formData.customerAvailability.date} 
+        onChange={handleChange} 
+        required 
+        className="border border-gray-300 rounded-lg p-3 w-full"
+      />
 
-    <div>Start Time</div>
-    <input 
-      type="time" 
-      name="startTime" 
-      value={formData.customerAvailability[0].startTime} 
-      onChange={handleChange} 
-      required 
-      className="border border-gray-300 rounded-lg p-3 w-full"
-    />
+      <div>Start Time</div>
+      <input 
+        type="time" 
+        name="startTime" 
+        value={formData.customerAvailability.startTime} 
+        onChange={handleChange} 
+        required 
+        className="border border-gray-300 rounded-lg p-3 w-full"
+      />
 
-    <div>End Time</div>
-    <input 
-      type="time" 
-      name="endTime" 
-      value={formData.customerAvailability[0].endTime} 
-      onChange={handleChange} 
-      required 
-      className="border border-gray-300 rounded-lg p-3 w-full"
-    />
-      <button type="submit" className="bg-blue-500 cursor-pointer text-white py-3 rounded-lg hover:bg-blue-700 transition-all">
+      <div>End Time</div>
+      <input 
+        type="time" 
+        name="endTime" 
+        value={formData.customerAvailability.endTime} 
+        onChange={handleChange} 
+        required 
+        className="border border-gray-300 rounded-lg p-3 w-full"
+      />
+
+      {/* Recurrence Checkbox */}
+      <div className="flex items-center gap-2">
+        <input 
+          type="checkbox" 
+          name="isRecurring" 
+          checked={formData.isRecurring} 
+          onChange={(e) => handleChange({ name: "isRecurring", value: e.target.checked })} 
+        />
+        <label>Make this a recurring booking?</label>
+      </div>
+
+      {/* Recurrence Frequency Dropdown */}
+      {formData.isRecurring && (
+        <div>
+          <label>Recurrence Frequency</label>
+          <Dropdown
+            value={formData.recurrence.frequency}
+            options={[
+              { label: "Weekly", value: "weekly" },
+              { label: "Monthly", value: "monthly" }
+            ]}
+            onChange={(e) => handleChange({ name: "frequency", value: e.value })}
+            placeholder="Select Frequency"
+            className="w-full border border-gray-300 rounded-lg"
+          />
+        </div>
+      )}
+
+      <button 
+        type="submit" 
+        className="bg-blue-500 cursor-pointer text-white py-3 rounded-lg hover:bg-blue-700 transition-all"
+      >
         Book Now
       </button>
     </form>
   </div>
 )}
+
+
       </div>
 
       {/* Edit Dialog */}

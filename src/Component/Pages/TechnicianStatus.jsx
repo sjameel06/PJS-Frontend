@@ -9,6 +9,9 @@ import {onMessageListener} from '../../../src/firebase'
 function TechnicianStatus() {
     const [status, setStatus] = useState(false); 
   const [notification,setNotification] =useState()
+  const [assignedJobs, setAssignedJobs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   useEffect(() => {
     onMessageListener()
         .then((payload) => {
@@ -22,36 +25,30 @@ function TechnicianStatus() {
         .catch((err) => console.error("❌ Error in onMessageListener:", err));
 }, []);
 
-
-    const handleStatusChange = async (e) => {
+ console.log(API_ENDPOINTS.TECHNICIAN.ASSIGNED_JOB,"assigned jobs") 
+ axiosInstance
+ useEffect(() => {
+    const fetchAssignedJobs = async () => {
+        setLoading(true);
         try {
-            const newStatus = e.value;  
-            const statusToSend = newStatus ? 'available' : 'inactive';  
-        
-            await axiosInstance.put(API_ENDPOINTS.TECHNICIAN.STATUS_UPDATE, {
-                status: statusToSend
-            });
+            console.log(API_ENDPOINTS.TECHNICIAN.ASSIGNED_JOB, "assigned jobs");
 
-            setStatus(newStatus);  
-            alert(`Technician status updated to ${statusToSend}`);
-            toast.success("Status Updated Successfully", {
-                position: "top-center", 
-                autoClose: 2000,    
-          })
-        } catch (error) {
-            console.error('Error updating technician status:', error);
-            alert('Failed to update technician status. Please try again.');
-            toast.error("Status Update Failed! Please try again.", {
-                position: "top-center",
-                autoClose: 2000,
-                hideProgressBar: true,
-                theme: "colored",
-            });
+            const response = await axiosInstance.get(API_ENDPOINTS.TECHNICIAN.ASSIGNED_JOB);
+            console.log(response,"resres")
+            setAssignedJobs(response.data.data.jobs); // Assuming API returns an array
+        } catch (err) {
+            console.error("Error fetching assigned jobs:", err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
+    fetchAssignedJobs();
+}, []);
+console.log(assignedJobs,"assigned")
     return (
-        <div>
+        <div className='mt-4 flex  justify-center items-center'>
                 <ToastContainer />
                 {notification && (
         <div
@@ -61,6 +58,28 @@ function TechnicianStatus() {
           <p>{notification.body}</p>
         </div>
       )}
+    <div className=" min-w-[400px] mx-auto p-6 bg-white shadow-lg rounded-lg">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Assigned Jobs</h2>
+            <ul className="space-y-4">
+                {assignedJobs.map((job) => (
+                    <li key={job._id} className="flex flex-col justify-between items-center gap-5 p-4 bg-gray-100 rounded-lg shadow">
+                         <h3>{job.service.name} - {job.subService.name}</h3>
+        <p><strong>Customer:</strong> {job.customer.name} ({job.customer.email})</p>
+        <p><strong>Description:</strong> {job.description}</p>
+        <p><strong>Address:</strong> {job.address.street}, {job.address.city}, {job.address.state}, {job.address.zipCode}</p>
+        <p><strong>Phone:</strong> {job.phoneNumber}</p>
+                        <div className="flex space-x-2">
+                            <button className="px-4 py-2 cursor-pointer bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition">
+                                Clock In
+                            </button>
+                            <button className="px-4 py-2 cursor-pointer bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition">
+                                Clock Out
+                            </button>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </div>
         </div>
     );
 }

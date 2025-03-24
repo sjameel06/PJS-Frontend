@@ -22,7 +22,9 @@ export const API_ENDPOINTS = {
 
     JOB : {
       JOB_CREATE:  `${BASE_URL}/jobs/create`,
+      JOB_RECURRANCE: `${BASE_URL}/jobs/recurring/create`,
       JOB_LIST : `${BASE_URL}/jobs/list/unassigned`,
+      REJOB_LIST :`${BASE_URL}/jobs/recurring/list/unassigned`,
       JOB_ASSINGED : `${BASE_URL}/jobs/assign` 
     },
     CUSTOMER: {
@@ -42,7 +44,8 @@ export const API_ENDPOINTS = {
         FORGET_PASSWORD : `${BASE_URL}/technician/forgot-password`,
         RESET_PASSWORD :`${BASE_URL}/technician/new-password`,
         STATUS_UPDATE : `${BASE_URL}/technician/update-status`,
-        ACTIVE_LIST : `${BASE_URL}/dispatcher/list-technicians`
+        ACTIVE_LIST : `${BASE_URL}/dispatcher/list-technicians`,
+        ASSIGNED_JOB :`${BASE_URL}/technician/list-jobs`
     },
     DISPATCHER: {
         LOGIN: `${BASE_URL}/dispatcher/login`,
