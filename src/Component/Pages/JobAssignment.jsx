@@ -67,7 +67,9 @@ const JobAssignment = () => {
     fetchTechnicians();
 
   }, [refresh]);
-
+  const start = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const end = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+  console.log(start,end,"startend")
 
   const generateDays = () => {
     const days = [];

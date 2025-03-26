@@ -46,6 +46,43 @@ function TechnicianStatus() {
 
     fetchAssignedJobs();
 }, []);
+
+const clockin = async (id) => {
+    try {
+        console.log(id, "job id");
+        console.log(`${API_ENDPOINTS.TECHNICIAN.CLOCK_IN}${id}/clock-in`,"api api")
+        const response = await axiosInstance.put(`${API_ENDPOINTS.TECHNICIAN.CLOCK_IN}${id}/clock-in`);
+        console.log("Clock-in successful:", response.data);
+        toast.success("Clock-in Successful!", {
+            position: "top-center",
+            autoClose: 2000,
+        });
+    } catch (error) {
+        console.error("Clock-in failed:", error.response?.data || error.message);
+        toast.error("Clock-in failed!", {
+            position: "top-center",
+            autoClose: 2000,
+        });
+    }
+};
+const clockout = async (id) => {
+    try {
+        console.log(id, "job id");
+        const response = await axiosInstance.put(`${API_ENDPOINTS.TECHNICIAN.CLOCK_IN}${id}/clock-out`);
+        console.log("Clock-out successful:", response.data);
+        toast.success("Clock-out Successful!", {
+            position: "top-center",
+            autoClose: 2000,
+        });
+    } catch (error) {
+        console.error("Clock-out failed:", error.response?.data || error.message);
+        toast.error("Clock-out failed!", {
+            position: "top-center",
+            autoClose: 2000,
+        });
+    }
+};
+
 console.log(assignedJobs,"assigned")
     return (
         <div className='mt-4 flex  justify-center items-center'>
@@ -61,7 +98,7 @@ console.log(assignedJobs,"assigned")
     <div className=" min-w-[400px] mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Assigned Jobs</h2>
             <ul className="space-y-4">
-                {assignedJobs.map((job) => (
+                {assignedJobs.length > 0 ? assignedJobs.map((job) => (
                     <li key={job._id} className="flex flex-col justify-between items-center gap-5 p-4 bg-gray-100 rounded-lg shadow">
                          <h3>{job.service.name} - {job.subService.name}</h3>
         <p><strong>Customer:</strong> {job.customer.name} ({job.customer.email})</p>
@@ -69,15 +106,15 @@ console.log(assignedJobs,"assigned")
         <p><strong>Address:</strong> {job.address.street}, {job.address.city}, {job.address.state}, {job.address.zipCode}</p>
         <p><strong>Phone:</strong> {job.phoneNumber}</p>
                         <div className="flex space-x-2">
-                            <button className="px-4 py-2 cursor-pointer bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition">
+                            <button onClick={() => clockin(job._id)} className="px-4 py-2 cursor-pointer bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition">
                                 Clock In
                             </button>
-                            <button className="px-4 py-2 cursor-pointer bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition">
+                            <button onClick={() => clockout(job._id)} className="px-4 py-2 cursor-pointer bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition">
                                 Clock Out
                             </button>
                         </div>
                     </li>
-                ))}
+                )) : "No Job Assigned To You Yet" }
             </ul>
         </div>
         </div>

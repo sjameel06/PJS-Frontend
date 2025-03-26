@@ -45,7 +45,8 @@ export const API_ENDPOINTS = {
         RESET_PASSWORD :`${BASE_URL}/technician/new-password`,
         STATUS_UPDATE : `${BASE_URL}/technician/update-status`,
         ACTIVE_LIST : `${BASE_URL}/dispatcher/list-technicians`,
-        ASSIGNED_JOB :`${BASE_URL}/technician/list-jobs`
+        ASSIGNED_JOB :`${BASE_URL}/technician/list-jobs`,
+        CLOCK_IN:`${BASE_URL}/technician/`
     },
     DISPATCHER: {
         LOGIN: `${BASE_URL}/dispatcher/login`,
