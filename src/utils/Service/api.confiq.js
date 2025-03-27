@@ -31,7 +31,8 @@ export const API_ENDPOINTS = {
         LOGIN: `${BASE_URL}/customer/login`,
         REGISTER: `${BASE_URL}/customer/register`,
         FORGET_PASSWORD : `${BASE_URL}/customer/forgot-password`,
-        RESET_PASSWORD :`${BASE_URL}/customer/new-password`
+        RESET_PASSWORD :`${BASE_URL}/customer/new-password`,
+        CUSTOMER_REQUESTED_JOB : `${BASE_URL}/customer/list-jobs`
     },
     ADMIN: {
         LOGIN: `${BASE_URL}/admin/login`,

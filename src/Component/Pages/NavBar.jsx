@@ -86,6 +86,20 @@ function NavBar() {
 
           </div>
       }
+ {
+        role === "customer" && 
+        <div className='flex gap-4'>
+        <button 
+       onClick={() => navigate("/MyOrder")} 
+       className="hover:text-gray-200 cursor-pointer transition duration-300"
+     >
+       My Orders
+     </button>
+
+          </div>
+      }
+
+
     {/* Right Section - Logout */}
     <div>
       <Logout />

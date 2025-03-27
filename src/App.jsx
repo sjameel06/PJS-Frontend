@@ -16,6 +16,7 @@ import AdminDashboard from "./Component/Pages/AdminDashboard";
 import EmployeeList from "./Component/Pages/EmployeeList";
 import JobList from "./Component/Pages/JobList";
 import TechnicianStatus from "./Component/Pages/TechnicianStatus";
+import CustomerOrder from "./Component/Pages/CustomerOrder";
 
 
 const Layout = ({ children }) => {
@@ -49,6 +50,7 @@ const App = () => {
                     <Route path="/Register" element={<Register />} />
                     <Route path="/ServicesDetail" element={<ProtectedRoute><ConfrimBooking /></ProtectedRoute>} />
                     <Route path="/Inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>} />
+                    <Route path="/MyOrder" element={<ProtectedRoute><CustomerOrder /></ProtectedRoute>} />
                     <Route path="/Status" element={<ProtectedRoute><TechnicianStatus /></ProtectedRoute>} />
                     <Route path="/dispatcherForgetPassword" element={<ForgetPassword />} />
                     <Route path="/adminForgetPassword" element={<ForgetPassword />} />
