@@ -55,6 +55,7 @@ const clockin = async (id) => {
         console.log(`${API_ENDPOINTS.TECHNICIAN.CLOCK_IN}${id}/clock-in`,"api api")
         const response = await axiosInstance.put(`${API_ENDPOINTS.TECHNICIAN.CLOCK_IN}${id}/clock-in`);
         console.log("Clock-in successful:", response.data);
+        setRefresh(!refresh)
         toast.success("Clock-in Successful!", {
             position: "top-center",
             autoClose: 2000,
@@ -118,8 +119,8 @@ console.log(costcalculation,"cost")
                         
                         <p><strong>Total Cost:</strong> ${job.totalCost}</p>
                         <p><strong>Overtime Cost:</strong> ${job.overtimeCost}</p>
-                        <p><strong>Total Hours:</strong> {(job.totalTime / 60).toFixed(2)} hours</p>
-                        <p><strong>Overtime Hours:</strong> {(job.overtime / 60).toFixed(2)} hours</p>
+                        <p><strong>Total Job Minutes:</strong> {(job.totalTime).toFixed(2)} minutes</p>
+                        <p><strong>Total Overtime Minutes:</strong> {(job.overtime).toFixed(2)} minutes</p>
 
                     </li>
                 ))}
