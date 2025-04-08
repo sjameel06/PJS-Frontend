@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import bg from "../../assets/Capture.jpg";
+import bg from "../../assets/LogInBG.jpg";
+
+import login from '../../assets/Login.png'
+import pjs from "../../assets/PJs-image.png"
+import username from "../../assets/User.png"
+import password from "../../assets/Password.png"
 import axios from "axios";
 import { API_ENDPOINTS } from "../../utils/Service/api.confiq";
 import {toast,ToastContainer} from "react-toastify"
@@ -118,58 +123,115 @@ const Login = () => {
         <div className="relative flex items-center justify-center min-h-screen bg-gray-100">
          <ToastContainer />
             <div
-                className="absolute inset-0 bg-cover bg-center opacity-10"
+                className="absolute inset-0 bg-cover bg-[#13275B] bg-center "
                 style={{ backgroundImage: `url(${bg})`, height: "100vh" }}
             ></div>
                
-            <div className="relative min-w-[300px] w-[30%] p-6 bg-white shadow-lg rounded-lg backdrop-blur-md bg-white/90">
-                <h2 className="text-[2rem] font-bold mb-4 text-center">Login</h2>
-                <form onSubmit={handleLogin}>
-                    <div className="font-medium text-[1.4rem] px-1 py-2">Email</div>
-                    <input
-                        type="text"
-                        placeholder="Email"
-                        className="w-full text-[1.2rem]  p-2 mb-1 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                        value={formdata.email}
-                        onChange={(e) => setFormData({ ...formdata, email: e.target.value })}
-                        required
-                    />
-                    {errors.email && <p className="text-red-500 text-[1.2rem] mb-3">{errors.email}</p>}
-                    
-                    <div className="relative ">
-                        <div className="font-medium  text-[1.4rem] px-1 py-2">Password</div>
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            placeholder="Password"
-                            className="w-full text-[1.2rem] p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 pr-10"
-                            value={formdata.password}
-                            onChange={(e) => setFormData({ ...formdata, password: e.target.value })}
-                            required
-                        />
-                        <button
-                            type="button"
-                            className="absolute cursor-pointer right-3 top-15 text-gray-600"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? 'Hide' : 'Show'}
-                        </button>
-                    </div>
+               <div className="relative w-[90%] md:w-[70%]  pt-[2rem] bg-white shadow-lg rounded-lg h-auto max-h-[100%] mx-auto">
+  <div className="flex flex-col md:flex-row justify-between items-center px-[5rem] gap-10  ">
+    
+  <div className="md:w-[33%] md:px-10  w-full text-center lg:text-left font-bold text-[3rem]">
+  <div className="text-center">Welcome to the</div>
+  <div className="">
+  <img src={pjs} alt="pjs" style={{ width: 'auto' }} />
+  </div>
 
-                    {errors.password && <p className="text-red-500 text-[1.2rem] mb-3">{errors.password}</p>}
-                    <div className=" flex items-center text-[1.2rem] mt-2 justify-center">
-                        <div   onClick={() => navigate(role != "CUSTOMER" ? `/${role.toLocaleLowerCase()}ForgetPassword` : '/ForgetPassword')} className="text-blue-500 cursor-pointer">Forget Password ?</div>
-                    </div>
-                    <button type="submit" className="w-full mt-4 cursor-pointer text-[1.2rem] hover:bg-blue-700 bg-blue-500  text-white p-2 rounded-lg" >
-                        Login
-                    </button>
-                </form>
-                <p className="mt-3 text-[1.2rem] text-center">
-                    Don't have an account?{" "}
-                    <span className="text-blue-500 cursor-pointer" onClick={() => navigate("/Register")}>
-                        Register
-                    </span>
-                </p>
-            </div>
+</div>
+
+    <div className="md:w-[20%]   w-full flex md:mt-[100px] justify-center">
+      <img src={login} alt="Login" style={{ height: '25rem', width: 'auto' }} />
+    </div>
+
+    <form onSubmit={handleLogin} className="w-full md:w-[34%]  p-[1.5rem] rounded-lg">
+      <h2 className="text-[2rem] font-bold mb-[1.5rem] text-center">Login</h2>
+
+      {/* <div className="font-medium text-[1.4rem] px-[0.5rem] py-[1rem]">Email</div> */}
+      <div className="relative">
+      <img
+    src={username}
+    alt="user icon"
+    className="absolute left-[1rem] top-8 transform -translate-y-1/2  "
+  />
+      <input
+        type="text"
+        placeholder="Username"
+        className="w-full text-[1.2rem] bg-[#ECECEC] placeholder-black pl-[4rem] p-[1rem] mb-[1rem] border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500"
+        value={formdata.email}
+        onChange={(e) => setFormData({ ...formdata, email: e.target.value })}
+        required
+        
+      />
+      {errors.email && <p className="text-red-500 text-[1.2rem] mb-[1rem]">{errors.email}</p>}
+      </div>
+      
+
+      <div className="relative">
+  <img
+    src={password}
+    alt="password icon"
+    className="absolute left-[1rem] top-1/2 transform -translate-y-1/2  "
+  />
+  <input
+    type={showPassword ? 'text' : 'password'}
+    placeholder="Password"
+    className="w-full text-[1.2rem] bg-[#ECECEC] placeholder-black pl-[4rem] pr-[5rem] p-[1rem] border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500"
+    value={formdata.password}
+    onChange={(e) => setFormData({ ...formdata, password: e.target.value })}
+    required
+  />
+
+  {/* Show/Hide Password Button */}
+  <button
+    type="button"
+    className="absolute right-[1rem] top-1/2 transform -translate-y-1/2 text-[1.2rem] text-gray-600"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? 'Hide' : 'Show'}
+  </button>
+</div>
+
+
+      {errors.password && <p className="text-red-500 text-[1.2rem] mb-[1rem]">{errors.password}</p>}
+
+      <div className="text-[1.2rem] flex justify-center mt-[1rem] ">
+       
+        <div className="text-[#989898]">Forgot your password ? </div>
+        <div
+          onClick={() =>
+            navigate(
+              role !== "CUSTOMER"
+                ? `/${role.toLowerCase()}ForgetPassword`
+                : '/ForgetPassword'
+            )
+          }
+          className="text-[#5E5BFF] px-2 cursor-pointer"
+        >
+          Recover
+        </div>
+      </div>
+     <div className="flex justify-center">
+     <button
+        type="submit"
+        className="w-full font-semibold md:w-[50%] mt-[1.5rem] text-[1.2rem] bg-blue-500 hover:bg-blue-700 text-white p-[1rem] rounded-3xl"
+      >
+        Login Now
+      </button>
+     </div>
+    
+
+      <p className="mt-[1rem] text-[1.2rem] text-center">
+        Don't have an account?{" "}
+        <span
+          className="text-blue-500 cursor-pointer"
+          onClick={() => navigate("/Register")}
+        >
+          Register
+        </span>
+      </p>
+    </form>
+  </div>
+</div>
+
         </div>
     );
 };
