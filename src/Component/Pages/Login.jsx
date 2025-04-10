@@ -56,7 +56,7 @@ const Login = () => {
 
 
     const roleRoutes = {
-        ADMIN: "/EmployeeForm",
+        ADMIN: "/AdminDashboard",
         CUSTOMER: "/OurServices",
         DISPATCHER: "/Profile",
         TECHNICIAN: "/Profile"

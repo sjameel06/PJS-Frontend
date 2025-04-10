@@ -8,12 +8,48 @@ import 'react-toastify/dist/ReactToastify.css'
 import {onMessageListener} from '../../../src/firebase'
 function TechnicianStatus() {
     const [status, setStatus] = useState(false); 
-  const [notification,setNotification] =useState()
+    const [notification,setNotification] =useState()
   const [assignedJobs, setAssignedJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [refresh,setRefresh] =useState(false)
   const [costcalculation,setCostCalculation] = useState()
+  const [location, setLocation] = useState({
+    latitude: null,
+    longitude: null,
+    error: null
+  });
+  
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null
+          });
+        },
+        error => {
+          setLocation({
+            latitude: null,
+            longitude: null,
+            error: error.message
+          });
+        }
+      );
+    } else {
+      setLocation({
+        latitude: null,
+        longitude: null,
+        error: 'Geolocation is not supported by this browser.'
+      });
+    }
+  }, []);
+
+  console.log(location,"location")
+
+
   useEffect(() => {
     onMessageListener()
         .then((payload) => {
@@ -53,7 +89,13 @@ const clockin = async (id) => {
     try {
         console.log(id, "job id");
         console.log(`${API_ENDPOINTS.TECHNICIAN.CLOCK_IN}${id}/clock-in`,"api api")
-        const response = await axiosInstance.put(`${API_ENDPOINTS.TECHNICIAN.CLOCK_IN}${id}/clock-in`);
+        const response = await axiosInstance.put(
+            `${API_ENDPOINTS.TECHNICIAN.CLOCK_IN}${id}/clock-in`,
+            {
+                "technicianLat" : location.latitude,
+                "technicianLng" : location.longitude
+            }
+        );
         console.log("Clock-in successful:", response.data);
         setRefresh(!refresh)
         toast.success("Clock-in Successful!", {

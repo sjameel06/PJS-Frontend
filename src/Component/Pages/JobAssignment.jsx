@@ -200,7 +200,7 @@ const JobAssignment = () => {
 
   console.log("re jobs", rejobs);
   return (
-    <div className="flex h-screen p-4 gap-4">
+    <div className="ml-20 flex h-screen p-4 gap-4">
       <ToastContainer />
       <div className="w-1/4 p-4 border rounded bg-gray-100">
         <h3 className="font-bold mb-2">Employees</h3>

@@ -56,7 +56,7 @@ useEffect(() => {
   console.log(pagination,"pagpag")
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg">
+    <div className="p-4 ml-20 bg-white shadow-md rounded-lg">
       <h2 className="text-[3rem] font-semibold mb-3 text-gray-700">Employee List</h2>
 
       <DataTable
