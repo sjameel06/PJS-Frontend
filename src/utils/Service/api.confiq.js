@@ -17,9 +17,7 @@ export const API_ENDPOINTS = {
         UPDATE_SUBSERVICE: `${BASE_URL}/pjs-services/`
 
 
-        
-    },
-
+        },
     JOB : {
       JOB_CREATE:  `${BASE_URL}/jobs/create`,
       JOB_RECURRANCE: `${BASE_URL}/jobs/recurring/create`,
