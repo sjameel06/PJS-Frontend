@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.1.8:5000/api/v1";
+const BASE_URL = "http://192.168.1.5:5000/api/v1";
 
 export const API_ENDPOINTS = {
      LOGOUT: `${BASE_URL}/session-token/logout`,
@@ -47,11 +47,16 @@ export const API_ENDPOINTS = {
         STATUS_UPDATE : `${BASE_URL}/technician/update-status`,
         ACTIVE_LIST : `${BASE_URL}/dispatcher/list-technicians`,
         ASSIGNED_JOB :`${BASE_URL}/technician/list-jobs`,
-        CLOCK_IN:`${BASE_URL}/technician/`
+        CLOCK_IN:`${BASE_URL}/technician/`,
+        PROFILE : `${BASE_URL}/technician/profile`
     },
     DISPATCHER: {
         LOGIN: `${BASE_URL}/dispatcher/login`,
         FORGET_PASSWORD : `${BASE_URL}/dispatcher/forgot-password`,
         RESET_PASSWORD :`${BASE_URL}/dispatcher/new-password`
     },
+    TEAM_MANAGEMENT : {
+        CREATE_TEAM : `${BASE_URL}/team/create-team`,
+        TEAM_LIST : `${BASE_URL}/team/teams?page=1&limit=10`
+    }
 };

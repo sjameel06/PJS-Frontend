@@ -18,6 +18,8 @@ import JobList from "./Component/Pages/JobList";
 import TechnicianStatus from "./Component/Pages/TechnicianStatus";
 import CustomerOrder from "./Component/Pages/CustomerOrder";
 import DashboardPage from "./Component/Pages/DashboardPage";
+import TeamManagement from "./Component/Pages/TeamManagement";
+import DispatcherDashboard from "./Component/Pages/DispatcherDashboard";
 
 const Layout = ({ children }) => {
     const location = useLocation();
@@ -49,7 +51,7 @@ const Layout = ({ children }) => {
             )}
 
             {/* Main content */}
-            <div className="flex-1 ">
+            <div className="flex-1  ">
                 {children}
             </div>
         </div>
@@ -73,6 +75,7 @@ const App = () => {
                     <Route path="/Inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>} />
                     <Route path="/MyOrder" element={<ProtectedRoute><CustomerOrder /></ProtectedRoute>} />
                     <Route path="/Status" element={<ProtectedRoute><TechnicianStatus /></ProtectedRoute>} />
+                    <Route path="/DispatcherDashboard" element={<ProtectedRoute><DispatcherDashboard /></ProtectedRoute>} />
                     <Route path="/dispatcherForgetPassword" element={<ForgetPassword />} />
                     <Route path="/adminForgetPassword" element={<ForgetPassword />} />
                     <Route path="/technicianForgetPassword" element={<ForgetPassword />} />
@@ -84,6 +87,7 @@ const App = () => {
                     <Route path="/Profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                     <Route path="/JobAssignment" element={<ProtectedRoute><JobAssignment /></ProtectedRoute>} />
                     <Route path="/OurServices" element={<ProtectedRoute><OurServices /></ProtectedRoute>} />
+                    <Route path="/TeamManagement" element={<ProtectedRoute><TeamManagement /></ProtectedRoute>} />
                 </Routes>
             </Layout>
         </Router>

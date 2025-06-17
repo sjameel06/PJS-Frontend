@@ -1,12 +1,14 @@
 import { jwtDecode } from 'jwt-decode';
 import { Dialog } from 'primereact/dialog';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback  } from 'react';
 import { API_ENDPOINTS } from '../../utils/Service/api.confiq';
 import axiosInstance from '../../utils/axiosInstance';
 import {toast,ToastContainer} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import { Dropdown } from "primereact/dropdown"; 
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+import axios from 'axios';
+import debounce from 'lodash.debounce';
 function ConfirmBooking() {
   const storedService = localStorage.getItem("selectedService");
   const services = storedService ? JSON.parse(storedService) : {};
@@ -14,6 +16,7 @@ function ConfirmBooking() {
   console.log("Selected Service:", services);
   const id = services._id
   const [service, setService] = useState([{}]);
+  const [suggestions,setSuggestions] =useState([])
   const [selectedSubService, setSelectedSubService] = useState(null);
   console.log(`${API_ENDPOINTS.SERVICES.GET_SERVICES}/${id},"url"`)
   const token = localStorage.getItem("accessToken");
@@ -78,11 +81,13 @@ const [formData, setFormData] = useState({
   ];
   const handleChange = (e) => {
     const { name, value } = e.target || e;
-
+    
     if (["street", "city", "state", "zipCode"].includes(name)) {
-        setFormData(prev => ({
+      debouncedFetch(value);
+      setFormData(prev => ({
             ...prev,
             address: { ...prev.address, [name]: value },
+           
         }));
     } 
     else if (name === "frequency") { 
@@ -214,11 +219,24 @@ console.log(selectedSubService,"selectedsubservice")
         toast.error("Booking Failed. Please try again.", { position: "top-center", autoClose: 2000 });
     }
 };
+const fetchSuggestions = async (input) => {
+  try {
+    const response = await axios.post(
+      `http://192.168.1.12:5000/api/v1/system/address-suggestions?query=${input}`
+    );
+    setSuggestions(response.data);
+    console.log("Suggestions fetched:", response);
+  } catch (error) {
+    console.error("Error fetching suggestions:", error);
+  }
+};
 
+const debouncedFetch = useCallback(debounce(fetchSuggestions, 3000), []);
 
+console.log(suggestions,"suggestion set")
   return (
     // <></>
-    <div className='bg-[#4DA1A9] tracking-widest min-h-screen py-10'>
+    <div className='ml-20 bg-[#4DA1A9] tracking-widest min-h-screen py-10'>
        <ToastContainer />
       <div className='flex items-center justify-center mb-8'>
         <div className='text-[3rem] font-semibold text-[#FFFDEC]'>{services.name || "No Service Selected"}</div>
@@ -299,7 +317,28 @@ console.log(selectedSubService,"selectedsubservice")
         className="border border-gray-300 rounded-lg p-3 w-full" 
         placeholder="Street Address" 
       />
-
+        {suggestions.length > 0 && (
+    <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg mt-70 w-[400px] max-h-[200px] overflow-y-auto shadow-lg">
+      {suggestions.map((suggestion, index) => (
+        <li
+          key={index}
+          className="p-2 cursor-pointer hover:bg-gray-100 text-sm"
+          onClick={() => {
+            setFormData(prev => ({
+              ...prev,
+              address: {
+                ...prev.address,
+                street: suggestion.fullAddress,
+              },
+            }));
+            setSuggestions([]); 
+          }}
+        >
+          {suggestion.fullAddress}
+        </li>
+      ))}
+    </ul>
+  )}
       <div>City</div>
       <input 
         type="text" 

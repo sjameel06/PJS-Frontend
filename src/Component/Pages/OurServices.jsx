@@ -60,15 +60,15 @@ console.log(selectedService,"sessese")
 
     try {
       const payload = {
-          name: selectedService.title,
+          name: selectedService.name,
           description: selectedService.description,
           subServices: selectedService.subServices || [], // Ensure subServices is included
       };
-
+      console.log(payload,"payyyyy")
       const response = await axiosInstance.put(`${API_ENDPOINTS.SERVICES.GET_SERVICES}/${selectedService._id}`, payload);
 
       console.log(response, "putres");
-
+      // console.log(payload,"payyyyyyyyyyyyyyyyyyy")
           setRefresh(!refresh)
         setSelectedService();
         setEditPopupOpen(false)
@@ -189,7 +189,7 @@ if (error) return <p>Error: {error}</p>;
           {services.length > 0 && services.map((service, index) => (
             <div
               key={index}
-              className={`group relative border border-gray-300 p-6 rounded-lg bg-white text-center shadow-md transition-all duration-700 ease-in-out`}
+              className={`relative border border-gray-300 p-6 rounded-lg bg-white text-center shadow-md transition-all duration-700 ease-in-out`}
             >
               {/* <img
                 src={service.image}
@@ -202,7 +202,7 @@ if (error) return <p>Error: {error}</p>;
               <p className="text-[1.8rem] text-gray-700">{service.description}</p>
 
               {role === "admin" && (
-                <div className="absolute top-2 right-2 space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-2 right-2 space-x-2  ">
                   <button className="bg-blue-500 cursor-pointer text-white px-3 py-1 rounded" onClick={() => openEditPopup(service)}>
                     Edit
                   </button>
@@ -214,7 +214,7 @@ if (error) return <p>Error: {error}</p>;
 
               <div className="flex justify-center items-center mt-2">
                 <button onClick={() => handleBooking(service)}
-                  className="transform text-[1.2rem] cursor-pointer hover:bg-blue-700 bg-blue-500 text-white px-6 py-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className=" text-[1.2rem] border cursor-pointer hover:bg-blue-700 bg-blue-500 text-white px-6 py-3 rounded-full"
                 >
                   {role === "admin" ? "Detail View" : "Book Now"}
                 </button>

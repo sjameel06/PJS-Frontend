@@ -3,21 +3,28 @@ import Logout from './Logout';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import dashboard from '../../assets/Group.png'
+import { useLocation } from 'react-router-dom';
 function NavBar() {
   const token = localStorage.getItem("accessToken");
   let decoded = {};
   if (token) {
     decoded = jwtDecode(token);
   }
-
+const isActive = (path) =>
+  currentPath === path
+    ? "bg-white text-[#1E73BE]"
+    : "hover:text-gray-200 text-white";
   const role = decoded.role;
   console.log(role, "role");
   const navigate = useNavigate();
+ 
 
+  const location = useLocation();
+  const currentPath = location.pathname;
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className="bg-[#1E73BE] w-84 h-screen fixed top-0 left-0 text-white  flex flex-col space-y-4 border-r border-gray-300">
+      <div className="bg-[#1E73BE] w-[20rem] fixed   h-screen  text-white  flex flex-col space-y-4 border-r border-gray-300">
         
 
         {/* Role-based Menu */}
@@ -61,6 +68,12 @@ function NavBar() {
 
           {role === "dispatcher" && (
             <div>
+               <button 
+                onClick={() => navigate("/DispatcherDashboard")} 
+                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+              >
+                Dashboard
+              </button>
               <button 
                 onClick={() => navigate("/JobAssignment")} 
                 className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
@@ -72,6 +85,12 @@ function NavBar() {
                 className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
               >
                 Profile
+              </button>
+              <button 
+                onClick={() => navigate("/TeamManagement")} 
+                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+              >
+                Team Management
               </button>
             </div>
           )}
@@ -101,7 +120,14 @@ function NavBar() {
               >
                 My Orders
               </button>
+              <button 
+              onClick={() => navigate("/OurServices")} 
+              className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+            >
+               Services
+            </button>
             </div>
+            
           )}
         </div>
 
@@ -113,7 +139,7 @@ function NavBar() {
 
       {/* Main Content Area */}
       <div className="flex-1 border  overflow-y-auto">
-        {/* Content will be rendered here */}
+       
       </div>
     </div>
   );

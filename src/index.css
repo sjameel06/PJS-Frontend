@@ -1,6 +1,8 @@
 @import "tailwindcss";
+@import 'tailwind-scrollbar-hide/v4';
 :root {
  font-size: 10px;
+ 
  
  
 }
