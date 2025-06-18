@@ -1,10 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'primereact/card';
 import { Chart } from 'primereact/chart';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'; // Make sure to import the Leaflet CSS
 import { LatLngExpression } from 'leaflet'
+import createprofile from '../../assets/createprofile.png'
+import workprogress from '../../assets/workprogress.png'
+import alltech from '../../assets/alltech.png'
+import completedreq from '../../assets/completedreq.png'
+import { API_ENDPOINTS } from '../../utils/Service/api.confiq';
+import axiosInstance from '../../utils/axiosInstance';
 const DispatcherDashboard = () => {
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [refresh, setRefresh] = useState(false)
+  const [teams, setTeams] = useState([]);
+const [expandedTeamId, setExpandedTeamId] = useState(null);
+  useEffect(() => {
+
+    const fetchTechnicians = async () => {
+      try {
+        const response = await axiosInstance.get(`${API_ENDPOINTS.TECHNICIAN.ACTIVE_LIST}?page=1&limit=10`);
+        if (response.data?.data) {
+          console.log(response, "resresres")
+          setEmployees(response.data.data.data);
+        } else {
+          console.error("Invalid technician data structure", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching technicians:", error);
+      }
+    };
+
+    const fetchTeam = async () => {
+      try {
+        const response = await axiosInstance.get(API_ENDPOINTS.TEAM_MANAGEMENT.TEAM_LIST);
+        console.log(response.data.data.teams,"reeeeeeeeeeeeeee")
+        if (response.data?.data?.teams) {
+          setTeams(response.data.data.teams); // nested safely
+        }
+      } catch (error) {
+        console.error("Error fetching teams:", error);
+      }
+    };
+
+    fetchTeam();
+    fetchTechnicians();
+
+  }, [refresh]);
+
   const jobSummary = [
     { label: "New Job Requests", count: 54 },
     { label: "In Progress Jobs", count: 12 },
@@ -59,51 +103,147 @@ const DispatcherDashboard = () => {
   ];
 
   return (
-    <div className="ml-20 p-6 space-y-6">
-      <h1 className="text-[2rem] text-[#1E73BE] font-normal">Dashboard</h1>
+ <div className="w-[95%] bg-[#FAF8FB] ml-18 p-4">
+      <div className="text-[2rem] text-[#1E73BE]  mb-4">Dashboard</div>
 
-      {/* Job Summary Cards */}
-      <div className='text-[#676767] font-semibold text-[1.4rem]'>Job Summary</div>
-      <div className="flex flex-row gap-4 w-[40%]  p-4 rounded-lg flex-wrap">
-  {jobSummary.map((item, idx) => (
-    <div
-      key={idx}
-      className="text-center  p-4 rounded-lg shadow-md bg-white min-w-[150px]"
-    >
-      <p className="text-[1.2rem] text-[#464646]">{item.label}</p>
-      <p className="text-[2.4rem] font-semibold text-[#1E73BE]">{item.count}</p>
+      <div className="flex w-full gap-2 ">
+  <div className="w-[45%]   text-start">
+
+  <div className='text-[#676767] my-2 font-semibold text-[1.4rem]'>Jobs Summary</div>
+
+<div className='flex gap-4  px-4 py-4'>
+  {/* Left Column */}
+  <div className='flex flex-col gap-4 '>
+    <div className='bg-[#1E73BE] text-white w-[183px] h-[181px]  px-4 py-4 rounded-[19px]'>
+    <div className='flex flex-col items-center gap-2'>
+      <img src={createprofile} className="mb-2" />
+      <div className='text-[1.6rem]'>Create profile</div>
+      <div className='text-[3.6rem] font-semibold'>120</div>
+    </div>
+    </div>
+ 
+    <div className='rounded-[19px] bg-[#fff] py-3 w-[187px] h-[110px] px-4 shadow-lg'>
+      <div className='flex items-center gap-2'>
+        <img src={completedreq} />
+        <div className='text-[1.4rem] font-medium'>All technicians</div>
+      </div>
+      <div className='text-[2rem] font-bold'>30</div>
+    </div>
+  </div>
+
+  {/* Right Column */}
+  <div className='flex flex-col gap-4'>
+    <div className='rounded-[19px] bg-[#fff] py-3 w-[183px] h-[110px] px-4 shadow-lg'>
+      <div className='flex items-center gap-2'>
+        <img src={workprogress} />
+        <div className='text-[1.4rem] font-medium'>Work & Progress</div>
+      </div>
+      <div className='text-[2rem] font-bold'>30</div>
+    </div>
+
+    <div className='rounded-[19px] bg-[#fff] py-3 h-[181px] w-[183px] px-4 shadow-lg'>
+      <div className='flex flex-col items-center gap-2'>
+        <img src={alltech} className=' mb-2'/>
+        <div className='text-[1.4rem] font-medium'>Completed Requests</div>
+      </div>
+      <div className='text-[3.6rem] font-bold'>20</div>
+    </div>
+  </div>
+</div>
+<div className='p-4'>
+<div className="w-full p-4  rounded ">
+        <h3 className="font-bold mb-2">Employees</h3>
+        
+        {employees.map((employee) => (
+          <div className="flex items-center justify-between mb-4 bg-white p-3 rounded-lg shadow-sm">
+          <div className="flex items-center">
+            <img
+              src={`https://i.pravatar.cc/150?u=${employee._id}`}
+              alt={employee.name}
+              className="w-10 h-10 rounded-full mr-3"
+            />
+            <span className="text-gray-800 font-medium">{employee.name}</span>
+          </div>
+
+          <button
+            // onClick={() =>handleCheckboxChange(employee._id)}
+            className={`w-[28px] h-[28px] text-[1.8rem] rounded-full flex items-center justify-center text-white bg-[#C7CED9]` }
+            //${
+            //   selectedEmployees.includes(employee._id) ? "bg-red-500" : "bg-[#D9E7FF]"
+            // }`}
+
+          >
+           {"+"} {/* {selectedEmployees.includes(employee._id) ? "−" : "+"} */}
+          </button>
+        </div>
+
+        ))}
+        <div className=""> 
+        <h3 className="font-bold mb-2">Teams</h3>
+  {teams.map((team) => (
+   
+    <div key={team._id} className=" border mt-2 rounded shadow p-2 bg-white">
+       {console.log(team,"teamteam")}
+      <div
+        className="cursor-pointer "
+        onClick={() =>
+          setExpandedTeamId(expandedTeamId === team._id ? null : team._id)
+        }
+      >
+        {team.teamName}
+      </div>
+
+      {expandedTeamId === team._id && (
+        <div className="mt-2 ml-4">
+          <p className="text-sm text-gray-500 mb-2">{team.description}</p>
+          {team.technicians?.length > 0 ? (
+            <ul className="list-disc pl-5">
+              {team.technicians.map((tech) => (
+                <li key={tech._id} className="text-gray-700">
+                  {tech.name} - {tech.email}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-red-500">No technicians in this team.</p>
+          )}
+        </div>
+      )}
     </div>
   ))}
 </div>
-<div className='text-[#676767] font-semibold text-[1.4rem]' >Workers Summary</div>
-<div className="flex justify-center gap-4">
+
+
+      </div>
+</div>
+
+      
+
+  </div>
+  <div className="w-[55%]   text-start">
+  <div className='text-[#676767] my-4 font-semibold text-[1.4rem]' >Workers Summary</div>
+<div className="flex justify-center  w-full gap-4">
         {workerStats.map((item, idx) => (
-          <div key={idx} className="text-center rounded-lg">
-            <div className="p-4 shadow-md">
-              <p  className="text-[12px] text-[#464646]">{item.label}</p>
+          <div key={idx} className="text-center bg-[#fff] rounded-lg">
+            <div className="py-1  px-8 shadow-md">
+              <p  className="text-[12px]  text-[#464646]">{item.label}</p>
               <p  className="text-[24px] font-semibold text-[#1E73BE]">{item.count}</p>
             </div>
           </div>
         ))}
       </div>
-      <div className="flex gap-6 ">
-        <Card className="w-[40%]">
+      <div className='text-[#676767] my-2 font-semibold text-[1.4rem]'>Revenue & Payment Summary</div>
+      <div className="flex gap-4">
+        <Card className=' w-full '>
           <div className="">
-            <h2 className='text-[#676767] font-semibold text-[1.4rem]'>Workers Most Engagement</h2>
-            <Chart
-              type="doughnut"
-              data={pieChartData}
-              options={{
-                responsive: true,
-                cutout: '50%',
-                plugins: { legend: { position: 'right' } }
-              }}
-            />
+            <h2 className='text-[#676767] font-semibold text-[1.4rem]'>Total Earnings - This Year</h2>
+            <Chart type="bar" className=''  data={revenueChartData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
           </div>
         </Card>
-        <div className=" w-[60%] rounded-lg shadow-md p-4">
+      </div>
+      <div className=" w-[100%] mt-2 bg-[#fff] rounded-lg shadow-md p-4">
         <h2 className='text-[#676767] font-semibold text-[1.4rem]'>Active Workers Locations</h2>
-        <div className="h-[400px] px-10">
+        <div className="h-[300px] w-full px-10">
           <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '' }}>
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -117,19 +257,24 @@ const DispatcherDashboard = () => {
           </MapContainer>
         </div>
       </div>
-      </div>
-
-      {/* Revenue & Payment Summary Section */}
-      <div className='text-[#676767] font-semibold text-[1.4rem]'>Revenue & Payment Summary</div>
-      <div className="flex gap-4">
-        <Card className='md:w-[33%] w-full '>
+      <div className=" gap-6 mt-2 ">
+        <Card className="w-[50%]">
           <div className="">
-            <h2 className='text-[#676767] font-semibold text-[1.4rem]'>Total Earnings - This Year</h2>
-            <Chart type="bar" className=''  data={revenueChartData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
+            <h2 className='text-[#676767] font-semibold text-[1.4rem]'>Workers Most Engagement</h2>
+            <Chart
+              type="doughnut"
+              data={pieChartData}
+              options={{
+                responsive: true,
+                cutout: '50%',
+                plugins: { legend: { position: 'right' } }
+              }}
+            />
           </div>
         </Card>
+        </div>
 
-        <Card className='md:w-[33%] w-full'>
+        {/* <Card className='md:w-[33%] w-full'>
           <div className="">
             <h2 className='text-[#676767] font-semibold text-[1.4rem]'>Payment Status Summary</h2>
             <ul className="space-y-6 pt-5 ">
@@ -144,22 +289,21 @@ const DispatcherDashboard = () => {
               ))}
             </ul>
           </div>
-        </Card>
+        </Card> */}
 
-        <Card className=' md:w-[33%] w-full'>
+        {/* <Card className=' md:w-[33%] w-full'>
           <div className="">
             <h2 className='text-[#676767] font-semibold text-[1.4rem]'>Revenue Breakdown by Service Type</h2>
             <Chart type="doughnut" data={pieChartData} options={{ responsive: true, cutout: '70%', plugins: { legend: { position: 'right' } } }} />
           </div>
-        </Card>
-      </div>
-
-      {/* Worker Stats */}
+        </Card> */}
     
 
-      {/* Worker Engagement Chart */}
-      
+  </div>
+</div>
     </div>
+
+
   );
 };
 
