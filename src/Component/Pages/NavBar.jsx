@@ -24,7 +24,7 @@ const isActive = (path) =>
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className="bg-[#1E73BE] w-[20rem] fixed   h-screen  text-white  flex flex-col space-y-4 border-r border-gray-300">
+      <div className="bg-[#1E73BE] sm:w-[22rem] 2xl:w-[25rem] fixed   h-screen  text-white  flex flex-col space-y-4 border-r border-gray-300">
         
 
         {/* Role-based Menu */}
@@ -74,12 +74,12 @@ const isActive = (path) =>
               >
                 Dashboard
               </button>
-              <button 
+              {/* <button 
                 onClick={() => navigate("/JobAssignment")} 
                 className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
               >
                 Job Assignment
-              </button>
+              </button> */}
               <button 
                 onClick={() => navigate("/Profile")} 
                 className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"

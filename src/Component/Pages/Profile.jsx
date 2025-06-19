@@ -93,7 +93,7 @@ function Profile() {
   };
 
   return (
-    <div className="my-5  ml-25 mr-10">
+    <div className="my-5   mr-10">
       <div className="rounded-md  px-10 py-5 bg-white rounded shadow text-black">
         <div className="flex justify-between">
           <div className="text-[1.8rem] font-bold mb-6 text-center">Profile Setting</div>

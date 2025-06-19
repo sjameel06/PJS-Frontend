@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_ENDPOINTS } from "../../utils/Service/api.confiq";
 import { toast, ToastContainer } from "react-toastify"
+import 'tailwind-scrollbar-hide/v4';
 import 'react-toastify/dist/ReactToastify.css'
 const JobAssignment = () => {
   const shifts = ["9AM-12PM", "12PM-3PM", "3PM-6PM", "6PM-9PM", "9PM-12AM"];
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  // const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [view, setView] = useState("month");
   const [employeeEvents, setEmployeeEvents] = useState({});
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -15,6 +16,11 @@ const JobAssignment = () => {
   const [refresh, setRefresh] = useState(false)
   const [teams, setTeams] = useState([]);
 const [expandedTeamId, setExpandedTeamId] = useState(null);
+const [selectedEmployee, setSelectedEmployee] = useState(() => {
+  // Initialize from localStorage once
+  const storedEmp = localStorage.getItem("selectedemployee");
+  return storedEmp ? JSON.parse(storedEmp) : null;
+});
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -29,8 +35,8 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
         console.error("Error fetching jobs:", error);
       }
     };
-
     fetchJobs();
+    
   }, [refresh]);
   useEffect(() => {
     const fetchJobs = async () => {
@@ -50,6 +56,7 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
 
     fetchJobs();
   }, [refresh]);
+
   useEffect(() => {
 
     const fetchTechnicians = async () => {
@@ -80,9 +87,14 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
 
     fetchTeam();
     fetchTechnicians();
-
+  
   }, [refresh]);
-
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("selectedemployee");
+    }},[]
+    
+  )
   console.log(teams,"teeeeeeeeeeeeeeee")
 
   const start = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -218,9 +230,9 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
 
   console.log("re jobs", rejobs);
   return (
-    <div className="ml-20 flex h-screen p-4 gap-4">
+    <div className=" flex h-screen p-4 gap-4">
       <ToastContainer />
-      <div className="w-1/4 p-4 border rounded bg-gray-100">
+      {/* <div className="w-1/4 p-4 border rounded bg-gray-100">
         <h3 className="font-bold mb-2">Employees</h3>
         {employees.map((employee) => (
           <div
@@ -268,10 +280,10 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
 </div>
 
 
-      </div>
+      </div> */}
       
 
-      <div className="w-2/4 h-screen overflow-y-auto scrollbar-hide p-4 rounded-[13px] shadow-md bg-[#FFFFFF]">
+      <div className="w-3/4 h-screen overflow-y-auto scrollbar-hide mx-auto p-4 rounded-[13px] shadow-md bg-[#FFFFFF]">
         {selectedEmployee ? (
           <>
         
@@ -332,32 +344,11 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
 {/* <button className={`p-2 border rounded ${view === "year" ? "bg-green-300" : "bg-gray-200"}`} onClick={() => setView("year")}>Year</button> */}
 </div>
               </div>
-
-
-              {/* {view === "year" ? (
-                <div className="grid grid-cols-4  gap-4">
-                  {generateYearView().map((monthData, index) => (
-                    <div key={index} className="border p-2 rounded bg-gray-200">
-                      <h3 className="text-center font-bold mb-2">{monthData.month}</h3>
-                      <div className="grid grid-cols-7 gap-1 text-xs">
-                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                          <div key={day} className="text-center font-semibold">{day}</div>
-                        ))}
-                        {monthData.days.map((day, idx) => (
-                          <div key={idx} className="p-1 text-center bg-gray-100 rounded">
-                            {day.getDate()}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : currentDate.toLocaleString("default",)} */}
             </h2>
            
-            <div className={`grid ${view === "year" ? "grid-cols-4" : "grid-cols-6"} gap-4 p-4  rounded bg-[#fff] `}>
+            <div className={`grid ${view === "year" ? "grid-cols-4" : "grid-cols-8"}  scrollbar-hide mx-auto px-6 gap-4 py-4  rounded bg-[#fff] `}>
               {generateDays().map((day, index) => (
-                <div key={index} className="py-2 px-3 rounded-[10px] bg-[#F0F9FF]  ">
+                <div key={index} className="py-2 px-4 rounded-[10px] bg-[#F0F9FF]  ">
                   <div className="flex items-center justify-center text-[1.2rem] gap-1 ">
 
                   <div className="text-center  text-[1.2rem] font-normal text-[#393939]">{day.getDate()}</div>
@@ -391,7 +382,7 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
         )}
       </div>
 
-      <div className="w-1/4 h-screen overflow-y-auto scrollbar-hide p-4 shadow-md rounded-[12px] bg-[#FFFFFF]">
+      <div className="w-1/3  mx-auto h-screen overflow-y-auto scrollbar-hide p-4 shadow-md rounded-[12px] bg-[#FFFFFF]">
 
         <h3 className="font-bold text-[#676767] text-[1.4rem] mb-2">Recurring Jobs</h3>
         {rejobs && rejobs.length > 0 ? (

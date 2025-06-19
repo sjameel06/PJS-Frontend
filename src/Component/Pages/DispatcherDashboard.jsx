@@ -10,12 +10,14 @@ import alltech from '../../assets/alltech.png'
 import completedreq from '../../assets/completedreq.png'
 import { API_ENDPOINTS } from '../../utils/Service/api.confiq';
 import axiosInstance from '../../utils/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 const DispatcherDashboard = () => {
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [refresh, setRefresh] = useState(false)
   const [teams, setTeams] = useState([]);
 const [expandedTeamId, setExpandedTeamId] = useState(null);
+const navigate = useNavigate()
   useEffect(() => {
 
     const fetchTechnicians = async () => {
@@ -101,17 +103,24 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
     { label: 'Assigned Workers', count: 12 },
     { label: 'Workers on Leave', count: 2 }
   ];
+const selectemp = (emp) => {
+console.log(emp)
+localStorage.setItem("selectedemployee", JSON.stringify(emp));
+
+navigate("/JobAssignment")
+}
+
 
   return (
- <div className="w-[95%] bg-[#FAF8FB] ml-18 p-4">
-      <div className="text-[2rem] text-[#1E73BE]  mb-4">Dashboard</div>
+ <div className=" bg-[#FAF8FB]  p-4">
+      <div className="text-[2rem] text-[#1E73BE] s  mb-4">Dashboard</div>
 
       <div className="flex w-full gap-2 ">
   <div className="w-[45%]   text-start">
 
   <div className='text-[#676767] my-2 font-semibold text-[1.4rem]'>Jobs Summary</div>
 
-<div className='flex gap-4  px-4 py-4'>
+<div className='flex gap-4 py-4 justify-center '>
   {/* Left Column */}
   <div className='flex flex-col gap-4 '>
     <div className='bg-[#1E73BE] text-white w-[183px] h-[181px]  px-4 py-4 rounded-[19px]'>
@@ -127,7 +136,7 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
         <img src={completedreq} />
         <div className='text-[1.4rem] font-medium'>All technicians</div>
       </div>
-      <div className='text-[2rem] font-bold'>30</div>
+      <div className='text-[2rem] text-center font-bold'>30</div>
     </div>
   </div>
 
@@ -138,7 +147,7 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
         <img src={workprogress} />
         <div className='text-[1.4rem] font-medium'>Work & Progress</div>
       </div>
-      <div className='text-[2rem] font-bold'>30</div>
+      <div className='text-[2rem] text-center font-bold'>30</div>
     </div>
 
     <div className='rounded-[19px] bg-[#fff] py-3 h-[181px] w-[183px] px-4 shadow-lg'>
@@ -146,7 +155,7 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
         <img src={alltech} className=' mb-2'/>
         <div className='text-[1.4rem] font-medium'>Completed Requests</div>
       </div>
-      <div className='text-[3.6rem] font-bold'>20</div>
+      <div className='text-[3.6rem] text-center font-bold'>20</div>
     </div>
   </div>
 </div>
@@ -155,7 +164,7 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
         <h3 className="font-bold mb-2">Employees</h3>
         
         {employees.map((employee) => (
-          <div className="flex items-center justify-between mb-4 bg-white p-3 rounded-lg shadow-sm">
+          <div onClick={() => selectemp(employee)}  className="flex items-center justify-between mb-4 bg-white p-3 rounded-lg shadow-sm">
           <div className="flex items-center">
             <img
               src={`https://i.pravatar.cc/150?u=${employee._id}`}
@@ -167,7 +176,7 @@ const [expandedTeamId, setExpandedTeamId] = useState(null);
 
           <button
             // onClick={() =>handleCheckboxChange(employee._id)}
-            className={`w-[28px] h-[28px] text-[1.8rem] rounded-full flex items-center justify-center text-white bg-[#C7CED9]` }
+            className={`w-[28px] h-[28px] pb-1 text-[1.8rem] rounded-full flex items-center justify-center text-white bg-[#C7CED9]` }
             //${
             //   selectedEmployees.includes(employee._id) ? "bg-red-500" : "bg-[#D9E7FF]"
             // }`}

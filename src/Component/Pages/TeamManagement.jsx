@@ -61,12 +61,12 @@ const [selectedEmployees, setSelectedEmployees] = useState([]);
 
       console.log(API_ENDPOINTS.TEAM_MANAGEMENT.CREATE_TEAM,"urlurl")
   return (
-    <div className="ml-15 min-h-screen bg-[#F5F7FA] flex flex-col items-center py-10">
-    <h1 className="text-[1.8rem] font-medium mb-2">Team Management</h1>
+    <div className=" min-h-screen bg-[#F5F7FA] flex flex-col items-center justify-center sm:py-2 2xl:py-10">
+    <h1 className="text-[1.8rem] font-medium py-10">Team Management</h1>
    <div className='w-full flex-col items-center justify-center px-15'>
-   <div className="  bg-[#ECF3FE]  rounded-lg shadow p-6 mb-2">
+   <div className="  bg-[#ECF3FE]  rounded-lg shadow  mb-2">
     <div className='mx-auto w-[50%] '>
-    <h3 className="text-[1.6rem] font-normal my-2
+    <h3 className="text-[1.6rem]  py-4 font-normal 
      text-center">Team Info</h3>
       <input
         type="text"
@@ -86,7 +86,7 @@ const [selectedEmployees, setSelectedEmployees] = useState([]);
     </div>
    </div>
    
-  <div> <h4 className="text-[1.8rem] font-medium my-2">Employee</h4></div>
+  <div> <h4 className="text-[1.8rem] font-medium  sm:py-4 2xl:py-10">Employee</h4></div>
   <div className="px-15 w-full">
   <div className="w-full mx-auto bg-[#ECF3FE] rounded-lg shadow p-6 mb-8">
     <div className="flex flex-wrap  justify-between">

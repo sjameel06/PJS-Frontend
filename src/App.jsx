@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
             )}
 
             {/* Main content */}
-            <div className="flex-1  ">
+            <div className="flex-1 ml-[60px]  2xl:ml-[90px] ">
                 {children}
             </div>
         </div>
