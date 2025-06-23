@@ -222,9 +222,9 @@ console.log(selectedSubService,"selectedsubservice")
 const fetchSuggestions = async (input) => {
   try {
     const response = await axios.post(
-      `http://192.168.1.5:5000/api/v1/system/address-suggestions?query=${input}`
+      `http://192.168.1.15:3000/api/v1/system/address-suggestions?query=${input}`
     );
-    setSuggestions(response.data);
+    setSuggestions(response.data.data);
     console.log("Suggestions fetched:", response);
   } catch (error) {
     console.error("Error fetching suggestions:", error);
@@ -329,6 +329,10 @@ console.log(suggestions,"suggestion set")
               address: {
                 ...prev.address,
                 street: suggestion.fullAddress,
+                city:suggestion.city,
+                state:suggestion.state,
+                zipCode:suggestion.postalCode
+
               },
             }));
             setSuggestions([]); 

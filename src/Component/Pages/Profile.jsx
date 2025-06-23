@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from "../../utils/Service/api.confiq";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-
+import { jwtDecode } from "jwt-decode";
 function Profile() {
   const {
     register,
@@ -27,11 +27,21 @@ function Profile() {
 
   const [profileData, setProfileData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
+  const token = localStorage.getItem("accessToken");
+  let decoded = {};
+  if (token) {
+    decoded = jwtDecode(token);
+  }
+  const role = decoded.role;
   useEffect(() => {
     const getTechnicianProfile = async () => {
+      const endpoint =
+  role === 'dispatcher'
+    ? API_ENDPOINTS.DISPATCHER.PROFILE
+    : API_ENDPOINTS.TECHNICIAN.PROFILE;
+
       try {
-        const response = await axiosInstance.get(API_ENDPOINTS.TECHNICIAN.PROFILE);
+        const response = await axiosInstance.get(endpoint);
         const data = response.data.data;
         console.log(response, "resres")
         setProfileData(data);
@@ -93,7 +103,7 @@ function Profile() {
   };
 
   return (
-    <div className="my-5   mr-10">
+    <div className="my-5 bg-[#FAF8FB] mr-3 ml-30">
       <div className="rounded-md  px-10 py-5 bg-white rounded shadow text-black">
         <div className="flex justify-between">
           <div className="text-[1.8rem] font-bold mb-6 text-center">Profile Setting</div>

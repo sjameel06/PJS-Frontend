@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
         "/",
         "/AdminLogin",
         "/TechnicianLogin",
-        "/DispatcherLogin",
+        "/DispatcherLogin", 
         "/Register",
         "/ForgetPassword",
         "/dispatcherForgetPassword",
@@ -45,13 +45,13 @@ const Layout = ({ children }) => {
         <div className="flex">
             {/* Sidebar (NavBar) */}
             {!shouldHideNavbar && (
-                <div className="w-64 h-screen bg-gray-800 text-white">
+                <div className="w-64  h-screen bg-gray-800 text-white">
                     <NavBar />
                 </div>
             )}
 
             {/* Main content */}
-            <div className="flex-1 ml-[60px]  2xl:ml-[90px] ">
+            <div className="flex-1   ">
                 {children}
             </div>
         </div>

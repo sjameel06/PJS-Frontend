@@ -58,7 +58,7 @@ const Login = () => {
     const roleRoutes = {
         ADMIN: "/AdminDashboard",
         CUSTOMER: "/OurServices",
-        DISPATCHER: "/Profile",
+        DISPATCHER: "/DispatcherDashboard",
         TECHNICIAN: "/Profile"
     };
     useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import bg from "../../assets/Capture.jpg";
+import bg from "../../assets/LogInBG.jpg";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
@@ -86,7 +86,7 @@ if (token) {
 
     return (
         <div className="relative flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="absolute inset-0 bg-cover bg-center opacity-10"
+            <div className="absolute inset-0 bg-cover bg-center opacity-100"
                 style={{ backgroundImage: `url(${bg})`, height: "100vh" }}
             ></div>
     

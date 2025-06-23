@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import bg from "../../assets/Capture.jpg";
+import bg from '../../assets/LogInBG.jpg?url';
 import { API_ENDPOINTS } from "../../utils/Service/api.confiq";
 
 function ForgetPassword() {
@@ -58,8 +58,8 @@ function ForgetPassword() {
     return (
         <div className="relative flex items-center justify-center min-h-screen bg-gray-100">
             <div
-                className="absolute inset-0 bg-cover bg-center opacity-10"
-                style={{ backgroundImage: `url(${bg})`, height: "100vh" }}
+                className="absolute inset-0 bg-cover bg-center "
+                style={{ backgroundImage: `url(${bg})` }}
             ></div>
             <div className="relative min-w-[300px] w-[30%] p-6 bg-white shadow-lg rounded-lg backdrop-blur-md bg-white/90">
                 <h2 className="text-[2rem] font-bold mb-4 text-center"> Forget Password</h2>

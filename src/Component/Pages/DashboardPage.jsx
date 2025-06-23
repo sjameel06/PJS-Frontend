@@ -59,7 +59,7 @@ const DashboardPage = () => {
   ];
 
   return (
-    <div className="  p-6 space-y-6">
+    <div className="ml-20  p-6 space-y-6">
       <h1 className="text-[2rem] text-[#1E73BE] font-normal">Dashboard</h1>
 
       {/* Job Summary Cards */}

@@ -37,7 +37,7 @@ const navigate = useNavigate()
     const fetchTeam = async () => {
       try {
         const response = await axiosInstance.get(API_ENDPOINTS.TEAM_MANAGEMENT.TEAM_LIST);
-        console.log(response.data.data.teams,"reeeeeeeeeeeeeee")
+        console.log(response.data.data.teams,"teams data")
         if (response.data?.data?.teams) {
           setTeams(response.data.data.teams); // nested safely
         }
@@ -51,6 +51,8 @@ const navigate = useNavigate()
 
   }, [refresh]);
 
+
+  console.log(teams,"c")
   const jobSummary = [
     { label: "New Job Requests", count: 54 },
     { label: "In Progress Jobs", count: 12 },
@@ -110,13 +112,20 @@ localStorage.setItem("selectedemployee", JSON.stringify(emp));
 navigate("/JobAssignment")
 }
 
+const selectteam = (team) => {
+  console.log(team)
+  localStorage.setItem("selectedteam", JSON.stringify(team));
+  
+  navigate("/JobAssignment")
+  }
+
 
   return (
- <div className=" bg-[#FAF8FB]  p-4">
+ <div className="ml-25 bg-[#FAF8FB]  p-4">
       <div className="text-[2rem] text-[#1E73BE] s  mb-4">Dashboard</div>
 
       <div className="flex w-full gap-2 ">
-  <div className="w-[45%]   text-start">
+  <div className="w-[45%]   text-start">   
 
   <div className='text-[#676767] my-2 font-semibold text-[1.4rem]'>Jobs Summary</div>
 
@@ -165,12 +174,13 @@ navigate("/JobAssignment")
         
         {employees.map((employee) => (
           <div onClick={() => selectemp(employee)}  className="flex items-center justify-between mb-4 bg-white p-3 rounded-lg shadow-sm">
+            {console.log(employee,"empemp")}
           <div className="flex items-center">
-            <img
+            {/* <img
               src={`https://i.pravatar.cc/150?u=${employee._id}`}
               alt={employee.name}
-              className="w-10 h-10 rounded-full mr-3"
-            />
+              className="w-8 h-8 rounded-full mr-3"
+            /> */}
             <span className="text-gray-800 font-medium">{employee.name}</span>
           </div>
 
@@ -191,7 +201,7 @@ navigate("/JobAssignment")
         <h3 className="font-bold mb-2">Teams</h3>
   {teams.map((team) => (
    
-    <div key={team._id} className=" border mt-2 rounded shadow p-2 bg-white">
+    <div key={team._id} className="  mb-4 bg-white p-3 rounded-lg shadow-sm rounded shadow p-2 bg-white">
        {console.log(team,"teamteam")}
       <div
         className="cursor-pointer "
@@ -203,7 +213,7 @@ navigate("/JobAssignment")
       </div>
 
       {expandedTeamId === team._id && (
-        <div className="mt-2 ml-4">
+        <div onClick={() => selectteam(team)} className="mt-2 cursor-pointer ml-4">
           <p className="text-sm text-gray-500 mb-2">{team.description}</p>
           {team.technicians?.length > 0 ? (
             <ul className="list-disc pl-5">

@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.1.14:5000/api/v1";
+const BASE_URL = "http://192.168.1.15:5000/api/v1";
 
 export const API_ENDPOINTS = {
      LOGOUT: `${BASE_URL}/session-token/logout`,
@@ -51,10 +51,12 @@ export const API_ENDPOINTS = {
     DISPATCHER: {
         LOGIN: `${BASE_URL}/dispatcher/login`,
         FORGET_PASSWORD : `${BASE_URL}/dispatcher/forgot-password`,
-        RESET_PASSWORD :`${BASE_URL}/dispatcher/new-password`
+        RESET_PASSWORD :`${BASE_URL}/dispatcher/new-password`,
+        PROFILE : `${BASE_URL}/dispatcher/profile`
     },
     TEAM_MANAGEMENT : {
         CREATE_TEAM : `${BASE_URL}/team/create-team`,
-        TEAM_LIST : `${BASE_URL}/team/teams?page=1&limit=10`
+        TEAM_LIST : `${BASE_URL}/team/teams?page=1&limit=10`,
+        JOB_ASSINGED:`${BASE_URL}/jobs/assign/team/`
     }
 };

@@ -61,7 +61,7 @@ const [selectedEmployees, setSelectedEmployees] = useState([]);
 
       console.log(API_ENDPOINTS.TEAM_MANAGEMENT.CREATE_TEAM,"urlurl")
   return (
-    <div className=" min-h-screen bg-[#F5F7FA] flex flex-col items-center justify-center sm:py-2 2xl:py-10">
+    <div className="ml-20 min-h-screen bg-[#F5F7FA] flex flex-col items-center justify-center sm:py-2 2xl:py-10">
     <h1 className="text-[1.8rem] font-medium py-10">Team Management</h1>
    <div className='w-full flex-col items-center justify-center px-15'>
    <div className="  bg-[#ECF3FE]  rounded-lg shadow  mb-2">
@@ -97,11 +97,11 @@ const [selectedEmployees, setSelectedEmployees] = useState([]);
         >
           <div className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm">
             <div className="flex items-center">
-              <img
+              {/* <img
                 src={`https://i.pravatar.cc/150?u=${employee._id}`}
                 alt={employee.name}
                 className="w-10 h-10 rounded-full mr-3"
-              />
+              /> */}
               <span className="text-gray-800 font-medium">{employee.name}</span>
             </div>
 

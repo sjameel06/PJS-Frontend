@@ -10,11 +10,12 @@ function NavBar() {
   if (token) {
     decoded = jwtDecode(token);
   }
+  const role = decoded.role;
 const isActive = (path) =>
   currentPath === path
     ? "bg-white text-[#1E73BE]"
     : "hover:text-gray-200 text-white";
-  const role = decoded.role;
+ 
   console.log(role, "role");
   const navigate = useNavigate();
  
