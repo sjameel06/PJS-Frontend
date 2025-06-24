@@ -17,9 +17,11 @@ import EmployeeList from "./Component/Pages/EmployeeList";
 import JobList from "./Component/Pages/JobList";
 import TechnicianStatus from "./Component/Pages/TechnicianStatus";
 import CustomerOrder from "./Component/Pages/CustomerOrder";
-import DashboardPage from "./Component/Pages/DashboardPage";
+
 import TeamManagement from "./Component/Pages/TeamManagement";
 import DispatcherDashboard from "./Component/Pages/DispatcherDashboard";
+import DashboardPage from "./Component/Pages/Dashboard/DashboardPage";
+import MainAdminDashboard from "./Component/Pages/Dashboard/MainAdminDashboard";
 
 const Layout = ({ children }) => {
     const location = useLocation();
@@ -64,7 +66,7 @@ const App = () => {
             <Layout>
                 <Routes>
                     <Route path="/" element={<Login />} />
-                    <Route path="/AdminDashboard" element={<DashboardPage />} />
+                    <Route path="/AdminDashboard" element={<MainAdminDashboard />} />
                     <Route path="/JobList" element={<JobList />} />
                     <Route path="/EmployeeList" element={<EmployeeList />} />
                     <Route path="/AdminLogin" element={<Login />} />
