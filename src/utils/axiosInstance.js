@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   
-  baseURL: 'http://192.168.1.8:5000/api/v1',
+  baseURL: 'https://7853-202-47-34-162.ngrok-free.app/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -31,7 +31,7 @@ const refreshToken = async () => {
     }
 
     const response = await axios.post(
-      'http://192.168.1.8:5000/api/v1/session-token/refresh-token',
+      'https://7853-202-47-34-162.ngrok-free.app/api/v1/session-token/refresh-token',
       {
         token: refreshToken,
         tokenType: 'refreshToken',

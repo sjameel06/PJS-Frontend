@@ -222,7 +222,7 @@ console.log(selectedSubService,"selectedsubservice")
 const fetchSuggestions = async (input) => {
   try {
     const response = await axios.post(
-      `http://192.168.1.15:3000/api/v1/system/address-suggestions?query=${input}`
+      `https://53dd-202-47-34-162.ngrok-free.app/api/v1/system/address-suggestions?query=${input}`
     );
     setSuggestions(response.data.data);
     console.log("Suggestions fetched:", response);

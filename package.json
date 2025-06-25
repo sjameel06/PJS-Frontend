@@ -53,5 +53,6 @@
     "globals": "^15.14.0",
     "tailwindcss": "^4.1.8",
     "vite": "^6.1.0"
-  }
+  },
+  "proxy": "https://8c19-202-47-34-162.ngrok-free.app"
 }

@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.1.8:5000/api/v1";
+const BASE_URL = "https://7853-202-47-34-162.ngrok-free.app/api/v1";
 
 export const API_ENDPOINTS = {
      LOGOUT: `${BASE_URL}/session-token/logout`,

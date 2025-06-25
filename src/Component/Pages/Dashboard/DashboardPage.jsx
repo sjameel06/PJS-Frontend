@@ -98,10 +98,8 @@ const DashboardPage = () => {
   const actionTemplate = (rowData) => {
     return (
         <div className="flex gap-2 justify-center">
-            <Button icon={<FaCheckCircle />} className="p-button-success p-button-rounded" />
-            <Button icon={<FaTimesCircle />} className="p-button-danger p-button-rounded" />
             <Button icon={<FaEdit />} className="p-button-secondary p-button-rounded" />
-            <Button icon={<FaPhone />} className="p-button-info p-button-rounded" />
+          
         </div>
     );
 };

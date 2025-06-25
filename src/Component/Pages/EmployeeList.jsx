@@ -16,7 +16,7 @@ const EmployeeList = () => {
   const fetchEmployees = async () => {
     try {
       setLoading(true);
-      let query = `?page=${pagination.page}&limit=${pagination.limit}`;
+      let query = `page=${pagination.page}&limit=${pagination.limit}`;
       if (search.trim()) query += `&search=${search.trim()}`;
       if (role) query += `&role=${role}`;
 

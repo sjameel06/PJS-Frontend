@@ -66,9 +66,9 @@ const App = () => {
             <Layout>
                 <Routes>
                     <Route path="/" element={<Login />} />
-                    <Route path="/AdminDashboard" element={<MainAdminDashboard />} />
-                    <Route path="/JobList" element={<JobList />} />
-                    <Route path="/EmployeeList" element={<EmployeeList />} />
+                    <Route path="/AdminDashboard" element={<ProtectedRoute><MainAdminDashboard /></ProtectedRoute>} />
+                    <Route path="/JobList" element={<ProtectedRoute><JobList /></ProtectedRoute>} />
+                    <Route path="/EmployeeList" element={<ProtectedRoute><EmployeeList /></ProtectedRoute> } />
                     <Route path="/AdminLogin" element={<Login />} />
                     <Route path="/TechnicianLogin" element={<Login />} />
                     <Route path="/DispatcherLogin" element={<Login />} />

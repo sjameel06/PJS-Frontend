@@ -83,7 +83,7 @@ const Login = () => {
             if (role === "TECHNICIAN"  && fcmToken) {
                 requestBody.fcmToken = fcmToken;
             }
-    
+              console.log(API_ENDPOINTS[role]?.LOGIN,"login api")
             const response = await axios.post(
                 API_ENDPOINTS[role]?.LOGIN,
                 requestBody,
@@ -109,7 +109,7 @@ const Login = () => {
                 navigate(roleRoutes[role] || "/OurServices");
             }, 1000);
         } catch (error) {
-            console.error("Login Error:", error.response?.data);
+            console.error("Login Error:", error);
             toast.error(error.response?.data?.message || "Login failed!", {
                 position: "top-center",
                 autoClose: 2000,
@@ -218,16 +218,18 @@ const Login = () => {
       </button>
      </div>
     
+     {role !== "ADMIN" && role !== "DISPATCHER" && (
+  <p className="mt-[1rem] text-[1.2rem] text-center">
+    Don't have an account?{" "}
+    <span
+      className="text-blue-500 cursor-pointer"
+      onClick={() => navigate("/Register")}
+    >
+      Register
+    </span>
+  </p>
+)}
 
-      <p className="mt-[1rem] text-[1.2rem] text-center">
-        Don't have an account?{" "}
-        <span
-          className="text-blue-500 cursor-pointer"
-          onClick={() => navigate("/Register")}
-        >
-          Register
-        </span>
-      </p>
     </form>
   </div>
 </div>
