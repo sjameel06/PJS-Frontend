@@ -1,5 +1,5 @@
-const BASE_URL = "https://7853-202-47-34-162.ngrok-free.app/api/v1";
-
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+console.log(import.meta.env.VITE_API_BASE_URL); 
 export const API_ENDPOINTS = {
      LOGOUT: `${BASE_URL}/session-token/logout`,
      EMPLOYEE : {

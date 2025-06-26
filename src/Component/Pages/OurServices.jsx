@@ -111,20 +111,31 @@ const role = decoded.role
 console.log(API_ENDPOINTS.SERVICES.GET_SERVICES,"rolerole")
 useEffect(() => {
   const fetchServices = async () => {
-      try {
-        const response = await axiosInstance.get(`${API_ENDPOINTS.SERVICES.GET_SERVICES}/?&subService=true`);
+    try {
+      const response = await axios.get(
+        `${API_ENDPOINTS.SERVICES.GET_SERVICES}/?&subService=true`
+      );
+      console.log("✅ Services Response:", response);
+      setServices(response.data.data.data);
+      setLoading(false);
+    } catch (err) {
+      console.error("❌ Axios Error:", err);
 
-          console.log(response,"resres")
-          setServices(response.data.data.data); 
-          setLoading(false);
-      } catch (err) {
-          setError(err.message);
-          setLoading(false);
-      }
+      // More detailed error message handling
+      const errorMessage =
+        err?.response?.data?.message || // backend error message
+        err?.response?.statusText ||   // HTTP error text
+        err?.message ||                // network error message
+        "An unexpected error occurred.";
+
+      setError(errorMessage);
+      setLoading(false);
+    }
   };
 
   fetchServices();
 }, [refresh]);
+
 console.log(services,"serve")
 if (loading) return <p>Loading...</p>;
 if (error) return <p>Error: {error}</p>;

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -54,5 +54,5 @@
     "tailwindcss": "^4.1.8",
     "vite": "^6.1.0"
   },
-  "proxy": "https://8c19-202-47-34-162.ngrok-free.app"
+  "proxy": "https://9557-202-47-34-162.ngrok-free.app"
 }
