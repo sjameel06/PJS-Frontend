@@ -9,6 +9,17 @@ import { Dropdown } from "primereact/dropdown";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import axios from 'axios';
 import debounce from 'lodash.debounce';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { ToggleButton } from 'primereact/togglebutton';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import edit from '../../assets/Edit.png';
+import detail from '../../assets/Detail.png';
+import deleteicon from '../../assets/Delete.png'
 function ConfirmBooking() {
   const storedService = localStorage.getItem("selectedService");
   const services = storedService ? JSON.parse(storedService) : {};
@@ -236,61 +247,120 @@ const debouncedFetch = useCallback(debounce(fetchSuggestions, 3000), []);
 console.log(suggestions,"suggestion set")
   return (
     // <></>
-    <div className='ml-20 bg-[#4DA1A9] tracking-widest min-h-screen py-10'>
+    <div className='ml-24 px-4 bg-[#FAF8FB] tracking-widest min-h-screen py-10'>
        <ToastContainer />
-      <div className='flex items-center justify-center mb-8'>
-        <div className='text-[3rem] font-semibold text-[#FFFDEC]'>{services.name || "No Service Selected"}</div>
-      </div>
-      <div className={`${role === "admin" ? "md:px-[20rem]" : ""} grid grid-cols-3 gap-4 w-full px-10 gap-6`}>
-        <div className={`${role === "admin" ? "flex flex-col md:col-span-3" : "col-span-3 md:col-span-2"} text-center bg-white p-4 rounded-lg`}>
-        {service?.subServices?.length > 0 ? (
-  service.subServices.map((subService, index) => (
-    <div key={index} className="flex justify-between mb-4 border-b pb-2">
-      <div>
-        <div className="text-[2rem] font-medium text-gray-800">{subService.name}</div>
-        <p className="text-[1.6rem] text-gray-700">{subService.description}</p>
-        <p className="text-[1.4rem] text-gray-600">Estimated Time: {subService.estimatedTime}</p>
-        <p className="text-[1.4rem] text-gray-600">Service Price: ${subService.servicePrice}</p>
-        <p className="text-[1.4rem] text-gray-600">Consultation Price: ${subService.concentrationPrice}</p>
-      </div>
-      {role === "admin" && (
-        <div className="space-x-2 flex">
-          <button
-            className="bg-blue-500 cursor-pointer h-[20px] text-white px-3 py-1 rounded"
-            onClick={() => openEditPopup(subService)}
-          >
-            Edit
-          </button>
-          <button
-            className="bg-red-500 cursor-pointer h-[20px] text-white px-3 py-1 rounded"
-            onClick={() => openDeletePopup(subService)}
-          >
-            Delete
-          </button>
-        </div>
-      )}
-      {console.log(selectedSubService?._id)}
-      {role === "customer" && (
-        <div className="space-x-2 flex">
-          {console.log(selectedSubService, subService._id,"checking")}
-          <button
-            className={`cursor-pointer h-[20px] text-white px-3 py-1 rounded 
-              ${selectedSubService === subService._id ? "bg-green-500" : "bg-blue-500"}`}
-            onClick={() => handleSelectService(subService)}
-            
-          >
-            {selectedSubService === subService._id ? "Unselect" : "Select"}
-          </button>
-        </div>
-      )}
+    <div className='flex gap-3 items-center'>
+    <div className=''>
+        
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 11L12 2L17.5 11H6.5ZM17.5 22C16.25 22 15.1877 21.5627 14.313 20.688C13.4383 19.8133 13.0007 18.7507 13 17.5C12.9993 16.2493 13.437 15.187 14.313 14.313C15.189 13.439 16.2513 13.0013 17.5 13C18.7487 12.9987 19.8113 13.4363 20.688 14.313C21.5647 15.1897 22.002 16.252 22 17.5C21.998 18.748 21.5607 19.8107 20.688 20.688C19.8153 21.5653 18.7527 22.0027 17.5 22ZM3 21.5V13.5H11V21.5H3ZM17.5 20C18.2 20 18.7917 19.7583 19.275 19.275C19.7583 18.7917 20 18.2 20 17.5C20 16.8 19.7583 16.2083 19.275 15.725C18.7917 15.2417 18.2 15 17.5 15C16.8 15 16.2083 15.2417 15.725 15.725C15.2417 16.2083 15 16.8 15 17.5C15 18.2 15.2417 18.7917 15.725 19.275C16.2083 19.7583 16.8 20 17.5 20ZM5 19.5H9V15.5H5V19.5ZM10.05 9H13.95L12 5.85L10.05 9Z" fill="#1E73BE"/>
+        </svg>
+        
+              </div>
+              <div className='text-[2rem] font-semibold text-[#1E73BE]'>Service Category Config → All Service Categories → { services.name}</div>
     </div>
-  ))
-) : (
-  <p className="text-[1.6rem] text-gray-700">No sub services listed</p>
-)}
+      
+      <div className='text-[1.6rem] text-[#4E4E4E] font-medium py-4'>Service Subcategories</div>
 
+      {/* <div className={`${role === "admin" ? "md:px-[20rem]" : ""} grid grid-cols-3 gap-4 w-full px-10 gap-6`}>
+        <div className={`${role === "admin" ? "flex flex-col md:col-span-3" : "col-span-3 md:col-span-2"} text-center bg-white p-4 rounded-lg`}> */}
+     <div className='bg-[#fff] rounded-[6px] h-screen py-4 px-4'> 
+     {service?.subServices?.length > 0 ? (
+  <DataTable
+    value={service.subServices}
+    className="mt-3"
+    responsiveLayout="scroll"
+    stripedRows
+    paginator
+    rows={7}
+  >
+    <Column
+      header="#"
+      body={(_, { rowIndex }) => rowIndex + 1}
+      style={{ width: '3rem' }}
+    />
 
+    <Column
+      field="name"
+      header="SUB CATEGORY NAME"
+      body={(sub) => (
+        <div className="text-[1.4rem]  text-[#212529]">{sub.name}</div>
+      )}
+    />
+
+    <Column
+      field="description"
+      header="DESCRIPTION"
+      body={(sub) => (
+        <div className="text-[1.4rem] text-[#212529]">{sub.description}</div>
+      )}
+    />
+
+    <Column
+      header="ESTIMATED TIME"
+      body={(sub) => (
+        <span className="text-[1.4rem] text-[#212529]">{sub.estimatedTime}</span>
+      )}
+    />
+
+    <Column
+      header="SERVICE PRICE"
+      body={(sub) => (
+        <span className="text-[1.4rem] text-[#212529]">${sub.servicePrice}</span>
+      )}
+    />
+
+    <Column
+      header="CONSULTATION PRICE"
+      body={(sub) => (
+        <span className="text-[1.4rem] text-[#212529]">${sub.concentrationPrice}</span>
+      )}
+    />
+
+    <Column
+      header="ACTION"
+      body={(sub) => (
+        <div className="flex gap-2">
+          {role === "admin" && (
+            <>
+              <button
+                className=""
+                onClick={() => openEditPopup(sub)}
+              >
+               <img src={edit} alt="Detail" className="" />
+              </button>
+              <button
+                className=""
+                onClick={() => openDeletePopup(sub)}
+              >
+                <img src={deleteicon} alt="Detail" className="" />
+              </button>
+            </>
+          )}
+
+          {role === "customer" && (
+            <button
+              className={`h-[28px] text-white px-3 py-1 rounded text-sm 
+                ${selectedSubService === sub._id ? "bg-green-500" : "bg-blue-500"}`}
+              onClick={() => handleSelectService(sub)}
+            >
+              {selectedSubService === sub._id ? "Unselect" : "Select"}
+            </button>
+          )}
         </div>
+      )}
+    />
+  </DataTable>
+) : (
+  <span className="text-gray-500 text-sm">No Sub Services Found</span>
+)}
+     </div>
+ 
+
+
+
+
+        {/* </div> */}
         {role !== "admin" && role !== "technician" && role !== "dispatcher" && (
   <div className="col-span-3 md:col-span-1 bg-white p-6 shadow-lg rounded-lg mx-10 mt-6">
     <h2 className="text-[2rem] font-semibold mb-4">Confirm Booking</h2>
@@ -463,7 +533,7 @@ console.log(suggestions,"suggestion set")
 )}
 
 
-      </div>
+      {/* </div> */}
 
       {/* Edit Dialog */}
       <Dialog visible={editPopupOpen} onHide={() => setEditPopupOpen(false)} header="Edit Sub-Service" modal   maskClassName="bg-black bg-opacity-30 backdrop-blur-xs"

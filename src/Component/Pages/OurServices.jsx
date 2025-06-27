@@ -12,7 +12,17 @@ import 'react-toastify/dist/ReactToastify.css'
 import { API_ENDPOINTS } from "../../utils/Service/api.confiq";
 import axios from "axios";
 import axiosInstance from "../../utils/axiosInstance";
-
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { ToggleButton } from 'primereact/togglebutton';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import edit from '../../assets/Edit.png';
+import detail from '../../assets/Detail.png';
+import deleteicon from '../../assets/Delete.png'
 
 function OurServices() {
   const [animate, setAnimate] = useState(false);
@@ -181,58 +191,83 @@ if (error) return <p>Error: {error}</p>;
 };
 
   return (
-    <div className={`bg-[#4DA1A9]   tracking-widest min-h-screen py-10`}>
+    <div className={`bg-[#FAF8FB] ml-24  2xl:ml-36  tracking-widest min-h-screen py-10`}>
       <ToastContainer />
-    <div className="flex items-center justify-center px-6">
-      <div className="w-[60%] min-w-[300px]">
+<div className="flex ml-5 gap-3">
+<div>
+        
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 11L12 2L17.5 11H6.5ZM17.5 22C16.25 22 15.1877 21.5627 14.313 20.688C13.4383 19.8133 13.0007 18.7507 13 17.5C12.9993 16.2493 13.437 15.187 14.313 14.313C15.189 13.439 16.2513 13.0013 17.5 13C18.7487 12.9987 19.8113 13.4363 20.688 14.313C21.5647 15.1897 22.002 16.252 22 17.5C21.998 18.748 21.5607 19.8107 20.688 20.688C19.8153 21.5653 18.7527 22.0027 17.5 22ZM3 21.5V13.5H11V21.5H3ZM17.5 20C18.2 20 18.7917 19.7583 19.275 19.275C19.7583 18.7917 20 18.2 20 17.5C20 16.8 19.7583 16.2083 19.275 15.725C18.7917 15.2417 18.2 15 17.5 15C16.8 15 16.2083 15.2417 15.725 15.725C15.2417 16.2083 15 16.8 15 17.5C15 18.2 15.2417 18.7917 15.725 19.275C16.2083 19.7583 16.8 20 17.5 20ZM5 19.5H9V15.5H5V19.5ZM10.05 9H13.95L12 5.85L10.05 9Z" fill="#1E73BE"/>
+        </svg>
+        
+              </div>
+              <div className="text-[#1E73BE] font-medium  text-[2rem]">
+              Service Category Config → All Service Categories
+              </div>
+</div>
+   
+    <div className=" px-5 py-2">
+      <div className=" ">
+        <div className=" flex justify-between">
+        <div className="text-[#4E4E4E] font-medium text-[1.6rem]">All Service Categories</div>
         {role === "admin" &&
-         <div className="flex justify-end">
+         <div className="">
          <div>
-           <button onClick={() => setCreatePopupOpen(true)} className="border cursor-pointer hover:bg-blue-700 border-blue-500 rounded-lg text-[#fff] bg-blue-500 px-2 py-2">Create Service</button>
+           <button onClick={() => setCreatePopupOpen(true)} className="border cursor-pointer rounded-[4px] text-[1.4rem]  rounded-lg text-[#fff] bg-[#1E73BE] py-2 px-4">+ Add Service Category</button>
          </div>
        </div>
         }
-       
-        <h2 className="text-[3rem] font-bold text-[#FFFDEC] text-center mb-8">
-          Our Services
-        </h2>
-        <div className="grid cursor-pointer gap-6 p-4 grid-cols-1 sm:grid-cols-2">
-          {services.length > 0 && services.map((service, index) => (
-            <div
-              key={index}
-              className={`relative border border-gray-300 p-6 rounded-lg bg-white text-center shadow-md transition-all duration-700 ease-in-out`}
-            >
-              {/* <img
-                src={service.image}
-                alt={service.title}
-                className="w-20 h-20 mx-auto mb-4"
-              /> */}
-              <div className="text-[2.4rem] font-medium mb-2 text-gray-800">
-                {service.name}
-              </div>
-              <p className="text-[1.8rem] text-gray-700">{service.description}</p>
-
-              {role === "admin" && (
-                <div className="absolute top-2 right-2 space-x-2  ">
-                  <button className="bg-blue-500 cursor-pointer text-white px-3 py-1 rounded" onClick={() => openEditPopup(service)}>
-                    Edit
-                  </button>
-                  <button className="bg-red-500 cursor-pointer text-white px-3 py-1 rounded" onClick={() => openDeletePopup(service)}>
-                    Delete
-                  </button>
-                </div>
-              )}
-
-              <div className="flex justify-center items-center mt-2">
-                <button onClick={() => handleBooking(service)}
-                  className=" text-[1.2rem] border cursor-pointer hover:bg-blue-700 bg-blue-500 text-white px-6 py-3 rounded-full"
-                >
-                  {role === "admin" ? "Detail View" : "Book Now"}
-                </button>
-              </div>
-            </div>
-          ))}
         </div>
+    
+        <div className="p-3 bg-[#fff] rounded-[6px] mt-4 h-screen">
+{console.log(services,"serve")}          
+  <DataTable className="bg-[#F4F7FCBF] " value={services} paginator rows={7} responsiveLayout="scroll" stripedRows>
+    <Column header="#" body={(_, { rowIndex }) => rowIndex + 1} style={{ width: '4rem' }} />
+    <Column header="CATEGORY NAME" className="" body={(row) => <span  className="text-[1.4rem] text-[#212529]">{row.name}</span>} />
+    <Column header="SUB-CATEGORY" body={(row) => (
+      <span className="text-[1.4rem] text-[#212529]">{row.subServices?.map(sub => sub.name).join(', ')}</span>
+    )} />
+    {/* <Column header="DEFAULT PRICE" body={(row) =>  <span>  AED 100</span>} /> */}
+    <Column header="DESCRIPTION" body={(row) => <span  className="text-[1.4rem] text-[#212529]">{row.description}</span>} />
+    <Column header="STATUS" body={(row) => (
+     <div class="relative inline-block w-11 h-5">
+     <input checked id="switch-component" type="checkbox" class="peer appearance-none w-11 h-8 bg-[#fff] rounded-full checked:bg-[#1E73BE] cursor-pointer transition-colors duration-300" />
+     <label for="switch-component" class="absolute top-0 left-0 w-7 h-8 bg-white rounded-full border border-slate-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-6 peer-checked:border-slate-800 cursor-pointer">
+     </label>
+   </div>
+    )} />
+    <Column header="ACTION" body={(row) => (
+     <div className="flex gap-3 ">
+     <button
+       className="cursor-pointer"
+       onClick={() => handleBooking(row)}
+     >
+       <img src={detail} alt="Detail" className="" />
+     </button>
+   
+     {role === 'admin' && (
+       <>
+         <button
+           className="cursor-pointer"
+           onClick={() => openEditPopup(row)}
+         >
+           <img src={edit} alt="Edit" className="" />
+         </button>
+   
+         <button
+           className="cursor-pointer"
+           onClick={() => openDeletePopup(row)}
+         >
+           <img src={deleteicon} alt="Delete" className="" />
+         </button>
+       </>
+     )}
+   </div>
+   
+    )} />
+  </DataTable>
+</div>
+
       </div>
     </div>
     <Dialog

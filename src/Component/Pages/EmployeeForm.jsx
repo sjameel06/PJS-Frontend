@@ -17,7 +17,6 @@ function EmployeeForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [editPopupOpen, setEditPopupOpen] = useState(false);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
- 
 
   const openEditPopup = (service) => {
     
@@ -73,10 +72,10 @@ function EmployeeForm() {
           hideProgressBar: true,
           theme: "colored",
       });
-
-      // setTimeout(() => {
-      //   navigate("/JobAssignment"); 
-      // }, 2000);
+    
+      setTimeout(() => {
+        navigate('/EmployeeList') 
+      }, 2000);
         console.log("Employee Added:", response.data);
        
     } catch (error) {
@@ -95,84 +94,104 @@ function EmployeeForm() {
   };
 
   return (
-    <div className='bg-[#4DA1A9] min-h-screen py-10 w-full'>
+    <div className='bg-[#FAF8FB]   ml-24 p-10       min-h-screen '>
       {/* <div className='flex justify-end items-center px-16'>
         <Logout/>
       </div> */}
+  <div >
   <div className='flex flex-col items-center justify-center  '>
            <ToastContainer />
-           
-      <h2 className='text-[3rem] font-semibold mb-4 '>Employee Form</h2>
-      <div className='bg-white p-6 min-w-[300px] w-[30%] rounded-lg shadow-md '>
-        <form onSubmit={handleSubmit} className='space-y-4'>
-          {formFields.map((field, index) => (
-            <div key={index}>
-              <label className='block font-medium text-[1.4rem]'>
-                {field.charAt(0).toUpperCase() + field.slice(1)}
-              </label>
-              <div className='relative'>
-                <input
-                  type={field === 'password' ? (showPassword ? 'text' : 'password') : 'text'}
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="w-full text-[1.2rem] p-2 my-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  placeholder={`Enter ${field}`}
-                />
-                {field === 'password' && (
-                  <button
-                    type="button"
-                    className="absolute text-[1.2rem] cursor-pointer right-3 top-4 text-gray-600"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? 'Hide' : 'Show'}
-                  </button>
-                )}
-              </div>
-              {errors[field] && <p className='text-red-500 text-[1.2rem]'>{errors[field]}</p>}
-            </div>
-          ))}
+         </div>  
+         <div className='text-[#1E73BE] text-[2rem] font-medium'>
+         User Management → Add User
+         </div>
+      <h2 className='text-[1.6rem] text-[#4E4E4E] font-semibold py-4 '>Add User</h2>
+      <div className='bg-white h-screen p-6  rounded-[6px]  '>
+      <form className='space-y-4 flex items-center gap-4 flex-wrap'>
+  {formFields.map((field, index) => (
+    <div key={index}>
+      <label className='block font-medium text-[1.4rem]'>
+        {field.charAt(0).toUpperCase() + field.slice(1)}
+      </label>
+      <div className='relative'>
+        <input
+          type={field === 'password' ? (showPassword ? 'text' : 'password') : 'text'}
+          name={field}
+          value={formData[field]}
+          onChange={handleChange}
+          className="w-[291px] text-[1.2rem] p-3 my-2 border-[1px] border-[#E5E5E5] rounded-[3px] focus:outline-none focus:border-blue-500"
+          placeholder={`Enter ${field}`}
+        />
+        {field === 'password' && (
+          <button
+            type="button"
+            className="absolute text-[1.2rem] cursor-pointer right-3 top-6 text-gray-600"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        )}
+      </div>
+      {errors[field] && <p className='text-red-500 text-[1.2rem]'>{errors[field]}</p>}
+    </div>
+  ))}
 
-<div>
+  {/* Role Dropdown */}
+  <div>
     <label className='px-1 font-medium text-[1.4rem]'>Role</label>
     <div className='relative cursor-pointer'>
-        <input
-            type='text'
-            value={formData.role}
-            readOnly
-            className="w-full p-2 my-2 cursor-pointer text-[1.2rem] border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder='Select Role'
-            onClick={() => setShowRoles(!showRoles)}
-        />
-        <span className='absolute right-3 top-5 text-gray-600 cursor-pointer' onClick={() => setShowRoles(!showRoles)}>
-            ▼
-        </span>
-        {showRoles && (
-            <ul className='absolute z-2 text-[1.2rem] w-full bg-white border rounded-md shadow-md mt-2'>
-                {roles.map((r, index) => (
-                    <li 
-                        key={index} 
-                        className='px-3 py-2 hover:bg-gray-200 cursor-pointer' 
-                        onClick={() => { 
-                            setFormData((prev) => ({ ...prev, role: r })); // Role update
-                            setShowRoles(false); 
-                        }}
-                    >
-                        {r}
-                    </li>
-                ))}
-            </ul>
-        )}
+      <input
+        type='text'
+        value={formData.role}
+        readOnly
+        className="p-3 my-2 cursor-pointer w-[291px] text-[1.2rem] border border-[#E5E5E5] rounded-[3px] focus:outline-none focus:border-blue-500"
+        placeholder='Select Role'
+        onClick={() => setShowRoles(!showRoles)}
+      />
+      <span className='absolute right-3 top-9 text-gray-600 cursor-pointer' onClick={() => setShowRoles(!showRoles)}>
+        <svg width="9" height="5" viewBox="0 0 9 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.375 1.25L4.5 4.375L7.625 1.25" stroke="#4E4E4E" strokeWidth="0.9375" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+      {showRoles && (
+        <ul className='absolute z-2 text-[1.2rem] w-full bg-white border border-[#E5E5E5] rounded-md shadow-md mt-2'>
+          {roles.map((r, index) => (
+            <li
+              key={index}
+              className='px-3 py-2 hover:bg-gray-200 cursor-pointer'
+              onClick={() => {
+                setFormData((prev) => ({ ...prev, role: r }));
+                setShowRoles(false);
+              }}
+            >
+              {r}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
+  </div>
+</form>
+
+{/* Buttons */}
+<div className='flex justify-end gap-5'>
+  <div className='pt-2'>
+    <button onClick={() => navigate('/EmployeeList')} className="text-[1.2rem] cursor-pointer bg-[#676767] text-white px-15 py-2 rounded-[4px]">
+      Cancel
+    </button>
+  </div>
+  <div className='pt-2'>
+    <button
+      type='button'
+      onClick={handleSubmit}
+      className="text-[1.2rem] cursor-pointer bg-[#1E73BE] text-white px-15 py-2 rounded-[4px]"
+    >
+      Add User
+    </button>
+  </div>
 </div>
 
-
-          <div className='pt-2'>
-            <button type='submit' className="w-full text-[1.2rem] cursor-pointer bg-blue-500 text-white p-2 rounded-lg">
-              Create Employee
-            </button>
-          </div>
-        </form>
+       
       </div>
     </div>
     </div>

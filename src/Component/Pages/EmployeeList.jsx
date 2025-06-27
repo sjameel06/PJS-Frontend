@@ -4,6 +4,7 @@ import { Column } from "primereact/column";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_ENDPOINTS } from "../../utils/Service/api.confiq";
 import { Skeleton } from "primereact/skeleton";
+import { useNavigate } from "react-router-dom";
 
 const LIMIT = 10; // ✅ Hardcoded limit, consistent across component
 
@@ -55,10 +56,17 @@ const EmployeeList = () => {
       page: event.page + 1, // ✅ PrimeReact is 0-based
     }));
   };
-
+const navigate = useNavigate()
   return (
-    <div className="p-4 ml-20 bg-white shadow-md rounded-lg">
-      <h2 className="text-[3rem] font-semibold mb-3 text-gray-700">Employee List</h2>
+    <div className="p-4 ml-20 bg-[#FAF8FB] ">
+      <div className="px-3 text-[2rem] text-[#1E73BE]">User Management → All Users</div>
+      <div className="flex items-center justify-between">
+      <div className="text-[1.6rem] px-3 font-semibold py-3 text-gray-700">All Users</div>
+      <div> 
+      <button onClick={() => navigate("/EmployeeForm")} className="text-[1.4rem] bg-[#1E73BE] py-2 px-12 text-[#fff] cursor-pointer rounded-[4px]">  + Add User  </button> 
+        </div>
+      </div>
+   
   
       {loading === true ? (
      <div className="flex justify-center items-center h-[300px]" role="status">
@@ -81,13 +89,14 @@ const EmployeeList = () => {
      <span className="sr-only">Loading...</span>
    </div>
       ) : (
-        <DataTable
+        <div className="bg-[#fff] p-4 mx-3 mt-3 rounded-[6px]">
+          <DataTable
           value={employees}
           paginator
           rows={LIMIT}
           first={(pagination.page - 1) * LIMIT}
           totalRecords={pagination.totalRecords}
-          rowsPerPageOptions={[LIMIT]}
+          // rowsPerPageOptions={[10,15]}
           tableStyle={{ minWidth: "50rem" }}
           className="p-datatable-striped p-datatable-hover custom-table"
           paginatorClassName="p-paginator-custom"
@@ -97,21 +106,26 @@ const EmployeeList = () => {
           <Column
             field="name"
             header="Name"
-            body={(rowData) => <span className="font-medium">{rowData.name}</span>}
+            sortable
+            body={(rowData) => <span className="px-3 py-1  font-normal text-[#212529] ">{rowData.name}</span>}
           />
           <Column
             field="email"
             header="Email"
-            body={(rowData) => <span className="text-gray-600">{rowData.email}</span>}
+            sortable
+            body={(rowData) => <span className="px-3 py-1  font-normal text-[#212529]">{rowData.email}</span>}
           />
           <Column
             field="role"
             header="Role"
+            sortable
             body={(rowData) => (
-              <span className="px-3 py-1 rounded-md font-semibold">{rowData.role}</span>
+              <span className="px-3 py-1  font-normal text-[#212529]">{rowData.role}</span>
             )}
           />
         </DataTable>
+           </div>
+        
       )}
   
       {/* Loader CSS already uses Tailwind */}
