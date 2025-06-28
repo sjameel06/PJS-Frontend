@@ -5,6 +5,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_ENDPOINTS } from "../../utils/Service/api.confiq";
 import { Skeleton } from "primereact/skeleton";
 import { useNavigate } from "react-router-dom";
+import SVG from "../../assets/Svg/Svg";
 
 const LIMIT = 10; // ✅ Hardcoded limit, consistent across component
 
@@ -58,8 +59,12 @@ const EmployeeList = () => {
   };
 const navigate = useNavigate()
   return (
-    <div className="p-4 ml-20 bg-[#FAF8FB] ">
-      <div className="px-3 text-[2rem] text-[#1E73BE]">User Management → All Users</div>
+    <div className="py-10 px-10 ml-20 bg-[#FAF8FB] "> 
+    <div className=" gap-2 px-3 flex items-center">
+      <div><SVG.User fill="#1E73BE"/></div>
+    <div className="text-[2rem] text-[#1E73BE]">User Management → All Users</div>
+    </div>
+
       <div className="flex items-center justify-between">
       <div className="text-[1.6rem] px-3 font-semibold py-3 text-gray-700">All Users</div>
       <div> 

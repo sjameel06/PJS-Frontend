@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import dashboard from '../../assets/Group.png'
 import { useLocation } from 'react-router-dom';
+import SVG from '../../assets/Svg/Svg';
 function NavBar() {
   const token = localStorage.getItem("accessToken");
   let decoded = {};
@@ -22,10 +23,11 @@ const isActive = (path) =>
 
   const location = useLocation();
   const currentPath = location.pathname;
+  console.log(location,"locloc")
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className="bg-[#1E73BE] sm:w-[22rem] 2xl:w-[25rem] fixed   h-screen  text-white  flex flex-col space-y-4 border-r border-gray-300">
+      <div className="bg-[#1E73BE]   sm:w-[22rem] 2xl:w-[25rem] fixed   h-screen  text-white  flex flex-col space-y-4 border-r border-gray-300">
         
 
         {/* Role-based Menu */}
@@ -37,62 +39,91 @@ const isActive = (path) =>
   />
 </div>
 
-        <div className="space-y-4 text-[1.6rem] px-6 py-6">
+        <div className="flex flex-col gap-3 px-3 py-3 text-[1.6rem] ">
           {role === "admin" && (
-            <>
-              <button 
-                onClick={() => navigate("/AdminDashboard")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
-              >
-                Dashboard
-              </button>
-              <button 
+            <> 
+       <div  className={`text-[1.6rem] font-medium cursor-pointer px-3 py-2 flex items-center gap-3 transition duration-300 text-left w-full ${
+      location.pathname === "/AdminDashboard"
+        ? "text-[#1E73BE] bg-white rounded-[5px] hover:text-blue-700 "
+        : "text-white"
+    }`}>
+  <SVG.Dashboard
+  stroke={location.pathname === "/AdminDashboard" ? "#1E73BE" : "white"}
+  size={20}
+/>
+  <button
+    onClick={() => navigate("/AdminDashboard")}
+   
+  >
+    Dashboard
+  </button>
+</div>
+             <div  className={`cursor-pointer flex items-center gap-3 px-3 py-2 ${location.pathname === "/EmployeeForm" ? "text-[#1E73BE] bg-[#fff]  rounded-[5px]  hover:text-blue-700 " : "text-[#fff] " }   text-[1.6rem] font-medium  transition duration-300 w-full text-left`}>
+            <SVG.User fill ={location.pathname === "/EmployeeForm" ?   "#1E73BE" : "white"} />
+            <button 
                 onClick={() => navigate("/EmployeeForm")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+               
               >
-                Add Employee
+                Add User
               </button>
-              <button 
+             </div>
+     
+           
+              
+             <div    className={` cursor-pointer px-3 py-2  flex items-center gap-3  ${location.pathname === "/EmployeeList" ? "text-[#1E73BE] bg-[#fff] rounded-[5px] hover:text-blue-700 " : "text-[#fff] " }  text-[1.6rem] font-medium transition duration-300 w-full text-left`}>
+            <SVG.EmployeeList  stroke ={location.pathname === "/EmployeeList" ?   "#1E73BE" : "white"} />
+            <button 
                 onClick={() => navigate("/EmployeeList")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+             
               >
                 Employee List
               </button>
+             </div>
+         
+              <div    className={` cursor-pointer  px-3 py-2 flex items-center gap-3 ${location.pathname === "/OurServices" ? "text-[#1E73BE] bg-[#fff]  rounded-[5px] hover:text-blue-700  " : "text-[#fff] " }  text-[1.6rem] font-medium transition duration-300 w-full text-left`}>
+              <SVG.Service fill={location.pathname === "/OurServices" ? "#1E73BE" : "white"}/>
               <button 
                 onClick={() => navigate("/OurServices")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+             
               >
                 Our Services
               </button>
+              </div>
+             
             </>
           )}
 
           {role === "dispatcher" && (
-            <div>
-               <button 
+            <div className=' flex flex-col gap-3'>
+              <div  className={`cursor-pointer px-3 py-2 flex items-center  gap-3  ${location.pathname === "/DispatcherDashboard" ? "text-[#1E73BE] bg-[#fff] rounded-[5px]  hover:text-blue-700 " : "text-[#fff] " }  text-[1.6rem] font-medium transition duration-300 w-full text-left`}>
+                <SVG.Dashboard  stroke={location.pathname === "/DispatcherDashboard" ? "#1E73BE" : "white"}/>
+              <button 
                 onClick={() => navigate("/DispatcherDashboard")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+               
               >
                 Dashboard
               </button>
-              {/* <button 
-                onClick={() => navigate("/JobAssignment")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
-              >
-                Job Assignment
-              </button> */}
+                </div>
+          
+              <div     className={`cursor-pointer px-3 py-2 flex items-center gap-3 ${location.pathname === "/Profile" ? "text-[#1E73BE] bg-[#fff]  rounded-[5px] hover:text-blue-700  " : "text-[#fff] " }  text-[1.6rem] font-medium transition duration-300 w-full text-left`}> 
+              <SVG.UserIcon fill={location.pathname === "/Profile" ? "#1E73BE" : "white"}/>
               <button 
-                onClick={() => navigate("/Profile")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+                onClick={() => navigate("/Profile")}  
+            
               >
                 Profile
               </button>
-              <button 
+              </div>
+             <div  className={` cursor-pointer px-3 py-2 flex items-center gap-3  ${location.pathname === "/TeamManagement" ? "text-[#1E73BE] bg-[#fff] rounded-[5px]  hover:text-blue-700 " : "text-[#fff] " }  text-[1.6rem] font-medium transition duration-300 w-full text-left`}>
+              <SVG.EmployeeList  stroke ={location.pathname === "/TeamManagement" ?   "#1E73BE" : "white"} />
+             <button 
                 onClick={() => navigate("/TeamManagement")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+               
               >
                 Team Management
               </button>
+             </div>
+     
             </div>
           )}
 
@@ -100,13 +131,13 @@ const isActive = (path) =>
             <div>
               <button 
                 onClick={() => navigate("/Profile")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+                className={` cursor-pointer px-3 py-2  ${location.pathname === "/Profile" ? "text-[#1E73BE] bg-[#fff] rounded-[5px] hover:text-blue-700  " : "text-[#fff] " }  text-[1.6rem] font-medium transition duration-300 w-full text-left`}
               >
                 Profile
               </button>
               <button 
-                onClick={() => navigate("/Status")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+                onClick={() => navigate("/Status")}  
+                className={` cursor-pointer px-3 py-2  ${location.pathname === "/Status" ? "text-[#1E73BE] bg-[#fff] rounded-[5px] hover:text-blue-700 " : "text-[#fff] " }   text-[1.6rem] font-medium transition duration-300 w-full text-left`}
               >
                 Status
               </button>
@@ -117,13 +148,13 @@ const isActive = (path) =>
             <div>
               <button 
                 onClick={() => navigate("/MyOrder")} 
-                className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+                className={` cursor-pointer  px-3 py-2 ${location.pathname === "/MyOrder" ? "text-[#1E73BE] bg-[#fff]  rounded-[5px] hover:text-blue-700  " : "text-[#fff] " }  text-[1.6rem] font-medium transition duration-300 w-full text-left`}
               >
                 My Orders
               </button>
               <button 
               onClick={() => navigate("/OurServices")} 
-              className="hover:text-gray-200 cursor-pointer transition duration-300 w-full text-left"
+              className={` cursor-pointer px-3 py-2  ${location.pathname === "/OurServices" ? "text-[#1E73BE] bg-[#fff] rounded-[5px]  hover:text-blue-700 " : "text-[#fff] " }   text-[1.6rem] font-medium transition duration-300 w-full text-left`}
             >
                Services
             </button>

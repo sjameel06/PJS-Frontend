@@ -7,6 +7,7 @@ import {toast,ToastContainer} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import Logout from './Logout';
 import Login from './Login';
+import SVG from '../../assets/Svg/Svg';
 function EmployeeForm() {
   const formFields = ['name', 'password', 'email']; // ✅ Lowercase keys to match formData
   const roles = ['Dispatcher', 'Technician'];
@@ -102,9 +103,13 @@ function EmployeeForm() {
   <div className='flex flex-col items-center justify-center  '>
            <ToastContainer />
          </div>  
+         <div className=' flex items-center gap-2'>
+         <div><SVG.User fill="#1E73BE"/></div>
          <div className='text-[#1E73BE] text-[2rem] font-medium'>
          User Management → Add User
          </div>
+         </div>
+       
       <h2 className='text-[1.6rem] text-[#4E4E4E] font-semibold py-4 '>Add User</h2>
       <div className='bg-white h-screen p-6  rounded-[6px]  '>
       <form className='space-y-4 flex items-center gap-4 flex-wrap'>
