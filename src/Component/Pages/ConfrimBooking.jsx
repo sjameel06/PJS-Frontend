@@ -246,9 +246,10 @@ const fetchSuggestions = async (input) => {
 const debouncedFetch = useCallback(debounce(fetchSuggestions, 3000), []);
 
 console.log(suggestions,"suggestion set")
+role !== "admin" && role !== "technician" && role !== "dispatcher"
   return (
     // <></>
-    <div className='ml-24 px-4 bg-[#FAF8FB] tracking-widest min-h-screen py-10'>
+    <div className={`ml-24 px-4 bg-[#FAF8FB] tracking-widest ${role === "customer" ?  '' : 'min-h-screen'}  py-10`}>
        <ToastContainer />
     <div className='flex gap-3 items-center'>
     <div className=''>
