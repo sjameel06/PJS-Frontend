@@ -30,7 +30,7 @@ const EmployeeList = () => {
       // console.log("Fetching Employees:", `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}${query}`);
 
       const response = await axiosInstance.get(
-        `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}${query}`
+        `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}?${query}`
       );
       console.log(response, "resres")
       const employeesData = response.data?.data?.employees || [];
