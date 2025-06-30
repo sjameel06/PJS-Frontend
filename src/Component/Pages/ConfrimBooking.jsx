@@ -249,7 +249,7 @@ console.log(suggestions,"suggestion set")
 role !== "admin" && role !== "technician" && role !== "dispatcher"
   return (
     // <></>
-    <div className={`ml-24 px-4 bg-[#FAF8FB] tracking-widest ${role === "customer" ?  '' : 'min-h-screen'}  py-10`}>
+    <div className={`ml-24 px-4 bg-[#FAF8FB] tracking-widest ${role === "customer" ?  'h-[50%]' : 'min-h-screen'}  py-10`}>
        <ToastContainer />
     <div className='flex gap-3 items-center'>
     <div className=''>
