@@ -111,7 +111,7 @@ const isActive = (path) =>
                 onClick={() => navigate("/Profile")}  
             
               >
-                Profile
+                My Profile
               </button>
               </div>
              <div  className={` cursor-pointer px-3 py-2 flex items-center gap-3  ${location.pathname === "/TeamManagement" ? "text-[#1E73BE] bg-[#fff] rounded-[5px]  hover:text-blue-700 " : "text-[#fff] " }  text-[1.6rem] font-medium transition duration-300 w-full text-left`}>
