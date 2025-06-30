@@ -122,7 +122,7 @@ console.log(API_ENDPOINTS.SERVICES.GET_SERVICES,"rolerole")
 useEffect(() => {
   const fetchServices = async () => {
     try {
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `${API_ENDPOINTS.SERVICES.GET_SERVICES}/?&subService=true`
       );
       console.log("✅ Services Response:", response);
