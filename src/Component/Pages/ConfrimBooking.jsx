@@ -20,6 +20,7 @@ import 'primeicons/primeicons.css';
 import edit from '../../assets/Edit.png';
 import detail from '../../assets/Detail.png';
 import deleteicon from '../../assets/Delete.png'
+import { useNavigate } from 'react-router-dom';
 function ConfirmBooking() {
   const storedService = localStorage.getItem("selectedService");
   const services = storedService ? JSON.parse(storedService) : {};
@@ -37,7 +38,7 @@ function ConfirmBooking() {
   }
 
   const role = decoded.role || "";
-
+const navigate = useNavigate()
   const [selectedService, setSelectedService] = useState({
     title: "",
     description: "",
@@ -224,7 +225,10 @@ console.log(selectedSubService,"selectedsubservice")
 
         console.log("Booking Confirmed:", response.data);
         toast.success("Booking Confirmed Successfully!", { position: "top-center", autoClose: 2000 });
-
+         
+      setTimeout(() => {
+        navigate('/MyOrder') 
+      }, 2000);
     } catch (error) {
         console.error("Error booking service:", error);
         toast.error("Booking Failed. Please try again.", { position: "top-center", autoClose: 2000 });
