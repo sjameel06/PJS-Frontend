@@ -27,12 +27,12 @@ const EmployeeList = () => {
       if (search.trim()) query += `&search=${search.trim()}`;
       if (role) query += `&role=${role}`;
 
-      console.log("Fetching Employees:", `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}${query}`);
+      // console.log("Fetching Employees:", `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}${query}`);
 
       const response = await axiosInstance.get(
         `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}${query}`
       );
-
+      console.log(response, "resres")
       const employeesData = response.data?.data?.employees || [];
       const totalRecords = response.data?.data?.total || 0;
 
