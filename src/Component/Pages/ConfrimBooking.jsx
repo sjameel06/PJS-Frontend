@@ -245,11 +245,11 @@ const fetchSuggestions = async (input) => {
 
 const debouncedFetch = useCallback(debounce(fetchSuggestions, 3000), []);
 
-console.log(suggestions,"suggestion set")
-role !== "admin" && role !== "technician" && role !== "dispatcher"
+console.log(role,"role")
+
   return (
     // <></>
-    <div className={`ml-24 px-4 bg-[#FAF8FB] tracking-widest ${role === "customer" ?  'h-[50%]' : 'min-h-screen'}  py-10`}>
+    <div className={`ml-24 px-4 bg-[#FAF8FB] tracking-widest min-h-screen  py-10`}>
        <ToastContainer />
     <div className='flex gap-3 items-center'>
     <div className=''>
@@ -266,7 +266,8 @@ role !== "admin" && role !== "technician" && role !== "dispatcher"
 
       {/* <div className={`${role === "admin" ? "md:px-[20rem]" : ""} grid grid-cols-3 gap-4 w-full px-10 gap-6`}>
         <div className={`${role === "admin" ? "flex flex-col md:col-span-3" : "col-span-3 md:col-span-2"} text-center bg-white p-4 rounded-lg`}> */}
-     <div className='bg-[#fff] rounded-[6px] h-screen py-4 px-4'> 
+    <div className={`bg-[#fff]  rounded-[6px] ${role === "customer" ? 'min-h-[300px]' : 'h-screen'} py-4 px-4`}>
+
      {service?.subServices?.length > 0 ? (
   <DataTable
     value={service.subServices}
