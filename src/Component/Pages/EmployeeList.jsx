@@ -14,28 +14,33 @@ const EmployeeList = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [role, setRole] = useState("");
+
+
   const [pagination, setPagination] = useState({
     page: 1,
+    rows: 10,
     totalRecords: 0,
   });
+  
 
   const fetchEmployees = async () => {
     try {
       setLoading(true);
 
-      let query = `page=${pagination.page}&limit=${LIMIT}`;
+      let query = `page=${pagination.page}&limit=${pagination.rows}`;
+
       if (search.trim()) query += `&search=${search.trim()}`;
       if (role) query += `&role=${role}`;
 
       // console.log("Fetching Employees:", `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}${query}`);
 
       const response = await axiosInstance.get(
-        `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}?${query}`
+        `${API_ENDPOINTS.EMPLOYEE.EMPLOYEE_LIST}${query}`
       );
       console.log(response, "resres")
       const employeesData = response.data?.data?.employees || [];
       const totalRecords = response.data?.data?.total || 0;
-
+      console.log(totalRecords,"total recss")
       setEmployees(Array.isArray(employeesData) ? employeesData : []);
       setPagination((prev) => ({ ...prev, totalRecords }));
     } catch (error) {
@@ -45,18 +50,23 @@ const EmployeeList = () => {
       setLoading(false);
     }
   };
-
+  console.log(pagination,"pagpag")
   useEffect(() => {
     fetchEmployees();
-  }, [pagination.page, search, role]); // ✅ No limit dependency
+  }, [pagination.page, pagination.rows, search, role]); // ✅ No limit dependency
 
   const onPageChange = (event) => {
-    console.log("Page changed to:", event.page + 1);
+    const newPage = event.page + 1;
+    const newRows = event.rows;
+  
     setPagination((prev) => ({
       ...prev,
-      page: event.page + 1, // ✅ PrimeReact is 0-based
+      page: newPage,
+      rows: newRows,
     }));
   };
+  
+  
 const navigate = useNavigate()
   return (
     <div className="py-10 px-10 ml-20 bg-[#FAF8FB] "> 
@@ -95,19 +105,24 @@ const navigate = useNavigate()
    </div>
       ) : (
         <div className="bg-[#fff] p-4 mx-3 mt-3 rounded-[6px]">
-          <DataTable
-          value={employees}
-          paginator
-          rows={LIMIT}
-          first={(pagination.page - 1) * LIMIT}
-          totalRecords={pagination.totalRecords}
-          // rowsPerPageOptions={[10,15]}
-          tableStyle={{ minWidth: "50rem" }}
-          className="p-datatable-striped p-datatable-hover custom-table"
-          paginatorClassName="p-paginator-custom"
-          paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          onPage={onPageChange}
-        >
+  
+  <DataTable
+  value={employees}
+  paginator
+  rows={pagination.rows}
+  first={(pagination.page - 1) * pagination.rows}
+  totalRecords={pagination.totalRecords}
+  rowsPerPageOptions={[10, 20, 50]}
+  onPage={onPageChange}
+  paginatorTemplate="RowsPerPageDropdown  CurrentPageReport"
+  currentPageReportTemplate={`{first} to {last} of ${pagination.totalRecords} `}// ✅ official and correct
+  paginatorClassName="p-paginator-custom"
+  className="p-datatable-striped p-datatable-hover custom-table"
+
+
+  >
+
+
           <Column
             field="name"
             header="Name"
