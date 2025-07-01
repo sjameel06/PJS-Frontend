@@ -56,6 +56,7 @@ const EmployeeList = () => {
   }, [pagination.page, pagination.rows, search, role]); // ✅ No limit dependency
 
   const onPageChange = (event) => {
+    console.log(event,"eee")
     const newPage = event.page + 1;
     const newRows = event.rows;
   
@@ -109,13 +110,14 @@ const navigate = useNavigate()
   <DataTable
   value={employees}
   paginator
-  rows={pagination.rows}
+  lazy
   first={(pagination.page - 1) * pagination.rows}
+  rows={pagination.rows}
   totalRecords={pagination.totalRecords}
-  rowsPerPageOptions={[10, 20, 50]}
   onPage={onPageChange}
-  paginatorTemplate="RowsPerPageDropdown  CurrentPageReport"
-  currentPageReportTemplate={`{first} to {last} of ${pagination.totalRecords} `}// ✅ official and correct
+  rowsPerPageOptions={[10,20,50]}
+  // paginatorTemplate="RowsPerPageDropdown  CurrentPageReport"
+  // currentPageReportTemplate={`{first} to {last} of ${pagination.totalRecords} `}// ✅ official and correct
   paginatorClassName="p-paginator-custom"
   className="p-datatable-striped p-datatable-hover custom-table"
 
@@ -172,12 +174,15 @@ const navigate = useNavigate()
         }
         .p-paginator .p-dropdown {
           margin-right: 8px;
+          
+          
         }
         .p-paginator .p-dropdown:before {
           content: "Rows per page: ";
           font-weight: 500;
           color: #333;
-          margin-right: 5px;
+        
+          padding : 2px 5px 5px 2px
         }
         .p-paginator .p-paginator-pages {
           display: flex;
