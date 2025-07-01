@@ -97,7 +97,7 @@ const DashboardPage = () => {
   ];
   const actionTemplate = (rowData) => {
     return (
-        <div className="flex gap-2 justify-center">
+        <div className="flex  p-1">
             <Button icon={<FaEdit />} className="p-button-secondary p-button-rounded" />
           
         </div>
