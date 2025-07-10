@@ -153,7 +153,7 @@ function Profile() {
                 <div className="border border-[#F9F9F9] px-4"></div>
           {/* Certifications */}
           <div>
-            <label className="block text-[1.6rem] font-bold mb-4">Certifications</label>
+          <label className="block text-[2rem] border-b-[2px] border-[#F9F9F9] font-bold mb-4">Certifications</label>
             {certificationFields.map((field, index) => (
               <div key={field.id} className="grid grid-col-2 
           gap-6
