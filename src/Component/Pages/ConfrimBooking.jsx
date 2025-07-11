@@ -237,7 +237,7 @@ console.log(selectedSubService,"selectedsubservice")
 const fetchSuggestions = async (input) => {
   try {
     const response = await axios.post(
-      ` https://staging.pjsplumbing.com/api/v1/system/address-suggestions?query=${input}`
+      `${import.meta.env.VITE_API_BASE_URL}/system/address-suggestions?query=${input}`
     );
    
     setSuggestions(response.data.data);
