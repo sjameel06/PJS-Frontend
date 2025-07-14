@@ -24,7 +24,7 @@ const [requestedJobs, setRequestedJobs] = useState([]); // State for storing job
     const assignedJobs = requestedJobs.filter(job => job.status === "assigned");
 
     return (
-        <div className='ml-20'>
+        <div className='mx-20'>
    <div className=" min-w-[400px] mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Requested Jobs</h2>
 
