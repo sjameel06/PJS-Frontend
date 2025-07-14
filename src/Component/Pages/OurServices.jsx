@@ -23,6 +23,7 @@ import 'primeicons/primeicons.css';
 import edit from '../../assets/Edit.png';
 import detail from '../../assets/Detail.png';
 import deleteicon from '../../assets/Delete.png'
+import ToggleSwitch from "../../assets/ToggleButton/ToggleSwitch";
 
 function OurServices() {
   const [animate, setAnimate] = useState(false);
@@ -87,8 +88,12 @@ console.log(selectedService,"sessese")
           autoClose: 2000,    
     })
     } catch (err) {
-        console.log("error")
-    } 
+          toast.error(`Service Update Failed: ${err.message === "Request failed with status code 422" ? "Due to invalid input" : err.message }`, {
+          position: "top-center", 
+          autoClose: 2000,    
+    })
+        console.log("error", err);
+    }
   };
 
  
@@ -186,6 +191,10 @@ if (error) return <p>Error: {error}</p>;
           autoClose: 2000,    
     })
     } catch (err) {
+          toast.error(`Service Created Failed: ${err.message === "Request failed with status code 422" ? "Due to invalid input" : err.message }`, {
+          position: "top-center", 
+          autoClose: 2000,    
+    })
         console.log("error", err);
     }
 };
@@ -230,11 +239,7 @@ if (error) return <p>Error: {error}</p>;
     {/* <Column header="DEFAULT PRICE" body={(row) =>  <span>  AED 100</span>} /> */}
     <Column header="DESCRIPTION" body={(row) => <span  className="text-[1.4rem] text-[#212529]">{row.description}</span>} />
     <Column header="STATUS" body={(row) => (
-     <div class="relative inline-block w-11 h-5">
-     <input checked id="switch-component" type="checkbox" class="peer appearance-none w-11 h-8 bg-[#fff] rounded-full checked:bg-[#1E73BE] cursor-pointer transition-colors duration-300" />
-     <label for="switch-component" class="absolute top-0 left-0 w-7 h-8 bg-white rounded-full border border-slate-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-6 peer-checked:border-slate-800 cursor-pointer">
-     </label>
-   </div>
+    <ToggleSwitch/>
     )} />
     <Column header="ACTION" body={(row) => (
      <div className="flex gap-3 ">
@@ -276,7 +281,7 @@ if (error) return <p>Error: {error}</p>;
   header="Create Service"
   modal
   maskClassName="bg-black bg-opacity-30 backdrop-blur-xs"
-  className="bg-[#fff] text-[2rem] p-4"
+  className="bg-[#fff] text-[2rem] p-4 w-[50%]"
 >
   {/* Service Title */}
   <input
@@ -332,26 +337,26 @@ if (error) return <p>Error: {error}</p>;
         placeholder="Estimated Time (e.g., 1 hour)"
       />
       <input
-        type="number"
-        value={subService.servicePrice}
+        type="text"
+        value={subService.servicePrice || ""}
         onChange={(e) => {
           const updatedSubServices = [...createService.subServices];
           updatedSubServices[index].servicePrice = parseFloat(e.target.value);
           setCreateService({ ...createService, subServices: updatedSubServices });
         }}
         className="w-full p-2 border border-gray-200 focus:outline-none focus:border-blue-500 text-[1.2rem] rounded mb-2"
-        placeholder="Service Price"
+        placeholder="Service Price etc 100"
       />
       <input
-        type="number"
-        value={subService.concentrationPrice}
+        type="text"
+        value={subService.concentrationPrice || ""}
         onChange={(e) => {
           const updatedSubServices = [...createService.subServices];
           updatedSubServices[index].concentrationPrice = parseFloat(e.target.value);
           setCreateService({ ...createService, subServices: updatedSubServices });
         }}
         className="w-full p-2 border border-gray-200 focus:outline-none focus:border-blue-500 text-[1.2rem] rounded mb-2"
-        placeholder="Consultation Price"
+        placeholder="Consultation Price etc 100"
       />
       {/* <div className="flex items-center mb-2">
         <input
@@ -481,26 +486,26 @@ if (error) return <p>Error: {error}</p>;
         placeholder="Estimated Time (e.g., 1 hour)"
       />
       <input
-        type="number"
-        value={subService.servicePrice}
+        type="text"
+        value={subService.servicePrice || ""}
         onChange={(e) => {
           const updatedSubServices = [...selectedService.subServices];
           updatedSubServices[index].servicePrice = parseFloat(e.target.value);
           setSelectedService({ ...selectedService, subServices: updatedSubServices });
         }}
         className="w-full p-2 border border-gray-200 focus:outline-none focus:border-blue-500 text-[1.2rem] rounded mb-2"
-        placeholder="Service Price"
+        placeholder="Service Price etc 100"
       />
       <input
-        type="number"
-        value={subService.concentrationPrice}
+        type="text"
+        value={subService.concentrationPrice || ""}
         onChange={(e) => {
           const updatedSubServices = [...selectedService.subServices];
           updatedSubServices[index].concentrationPrice = parseFloat(e.target.value);
           setSelectedService({ ...selectedService, subServices: updatedSubServices });
         }}
         className="w-full p-2 border border-gray-200 focus:outline-none focus:border-blue-500 text-[1.2rem] rounded mb-2"
-        placeholder="Consultion Price"
+        placeholder="Consultion Price etc 100"
       />
       {/* <div className="flex items-center mb-2">
         <input

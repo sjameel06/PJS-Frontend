@@ -544,17 +544,17 @@ console.log(role,"role")
 
       {/* Edit Dialog */}
       <Dialog visible={editPopupOpen} onHide={() => setEditPopupOpen(false)} header="Edit Sub-Service" modal   maskClassName="bg-black bg-opacity-30 backdrop-blur-xs"
-  className="bg-[#fff] text-[2rem] p-4">
+  className="bg-[#fff] text-[2rem] p-4 w-[50%]">
         <div>SubService Name</div>
         <input type="text" value={editingSubService?.name || ""} onChange={(e) => setEditingSubService({...editingSubService, name: e.target.value })} className="w-full p-2 border rounded mb-4" placeholder="SubService Name" />
         <div>SubService Description</div>
         <textarea value={editingSubService?.description || ""} onChange={(e) => setEditingSubService({...editingSubService, description: e.target.value })} className="w-full p-2 border rounded mb-4" placeholder="SubService Description"></textarea>
         <div>Estimated Time</div>
-        <input type="text" value={editingSubService?.estimatedTime || ""} onChange={(e) => setEditingSubService({...editingSubService, estimatedTime: e.target.value })} className="w-full p-2 border rounded mb-4" placeholder="Estimated Time" />
+        <input type="text" value={editingSubService?.estimatedTime || ""} onChange={(e) => setEditingSubService({...editingSubService, estimatedTime: e.target.value })} className="w-full p-2 border rounded mb-4" placeholder="2 hours etc" />
         <div>Service Price</div>
-        <input type="number" value={editingSubService?.servicePrice || ""} onChange={(e) => setEditingSubService({...editingSubService, servicePrice: e.target.value })} className="w-full p-2 border rounded mb-4" placeholder="Service Price" />
+        <input type="number" value={editingSubService?.servicePrice || ""} onChange={(e) => setEditingSubService({...editingSubService, servicePrice: e.target.value })} className="w-full p-2 border rounded mb-4" placeholder="Service Price etc 100" />
         <div>Consultation Price</div>
-        <input type="number" value={editingSubService?.concentrationPrice || ""} onChange={(e) => setEditingSubService({...editingSubService, concentrationPrice: e.target.value })} className="w-full p-2 border rounded mb-4" placeholder="Concentration Price" />
+        <input type="number" value={editingSubService?.concentrationPrice || ""} onChange={(e) => setEditingSubService({...editingSubService, concentrationPrice: e.target.value })} className="w-full p-2 border rounded mb-4" placeholder="Concentration Price etc 100"  />
 
         <div className="flex justify-end space-x-2">
           <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setEditPopupOpen(false)}>Cancel</button>
